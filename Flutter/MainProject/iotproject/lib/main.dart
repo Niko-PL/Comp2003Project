@@ -52,7 +52,7 @@ class DevicesPage extends StatelessWidget {
                 ),
                 IconButton(
                   icon: const Icon(Icons.grid_view, color: Colors.orange),
-                  onPressed: () {},
+                  onPressed: () {print("Grid view button tapped");},
                 ),
               ],
             ),
@@ -62,21 +62,35 @@ class DevicesPage extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                DeviceCard(
+
+                InkWell(
+                onTap: () {
+                  print('Device tapped');
+                },
+
+                child: DeviceCard(
                   imagePath: 'assests/TestImages/TestGpsImage.png',
                   title: 'Tracker One',
                   lastMaintenance: '300 days ago',
                   gpsLocation: '40.748195, -73.989308',
                   status: 'Needs New Battery',
                   statusColor: Colors.red,
+
+                  ),
                 ),
-                DeviceCard(
+                InkWell(
+                onTap: () {
+                  print('Device tapped');
+                },
+                
+                child: DeviceCard(
                   imagePath: 'assests/TestImages/TestGpsImage.png',
                   title: 'Computer One',
                   lastMaintenance: '200 days ago',
                   gpsLocation: '40.748195, -73.989308',
                   status: '',
                   statusColor: Colors.transparent,
+                  ),
                 ),
               ],
             ),
@@ -86,6 +100,9 @@ class DevicesPage extends StatelessWidget {
 
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: const Color.fromARGB(255, 13, 42, 56),
+        unselectedItemColor: Colors.white,
+        selectedItemColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -113,6 +130,7 @@ class DeviceCard extends StatelessWidget {
   final String status;
   final Color statusColor;
 
+
   DeviceCard({
     required this.imagePath,
     required this.title,
@@ -120,6 +138,7 @@ class DeviceCard extends StatelessWidget {
     required this.gpsLocation,
     required this.status,
     required this.statusColor,
+
   });
 
   @override
