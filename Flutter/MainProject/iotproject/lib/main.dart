@@ -27,36 +27,53 @@ class DevicesPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      body: Column(
+body: Column(
+  children: [
+    // Search bar, Filter, and Grid buttons
+    Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Column(
         children: [
-          // Search bar, Filter, and Grid buttons
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          TextField(
+            decoration: InputDecoration(
+              prefixIcon: Icon(Icons.search, color: Colors.orange),
+              hintText: 'Search ... 2 Devices',
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+                Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () {},
             child: Row(
               children: [
-                Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.search, color: Colors.orange),
-                      hintText: 'Search ... 2 Devices',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                IconButton(
-                  icon: const Icon(Icons.filter_alt, color: Colors.orange),
-                  onPressed: () {},
-                ),
-                IconButton(
-                  icon: const Icon(Icons.grid_view, color: Colors.orange),
-                  onPressed: () {print("Grid view button tapped");},
-                ),
+                Icon(Icons.filter_alt, color: Colors.orange),
+                Text('Filter', style: TextStyle(color: Colors.orange)),
               ],
             ),
           ),
+          GestureDetector(
+            onTap: () {
+              print("Grid view button tapped");
+            },
+            child: Row(
+              children: [
+                Icon(Icons.grid_view, color: Colors.orange),
+                Text('Grid View', style: TextStyle(color: Colors.orange)),
+              ],
+            ),
+          ),
+        ],
+      ),
+        ],
+      ),
+    ),
+          
+          
 
           // List of devices
           Expanded(
