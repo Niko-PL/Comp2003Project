@@ -50,10 +50,12 @@ export default function Home() {
       <View style={styles.container}>
         <CameraView style={styles.camera} facing={facing} barcodeScannerSettings={{ barcodeTypes: ["qr"],}} onBarcodeScanned={handleBarcodeScanned}>
           <View style={styles.buttonContainer}>
+            {/*
             <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
               <Text style={styles.text}>Flip Camera</Text>
             </TouchableOpacity>
-            {qrData ? <Text style={styles.text}>{qrData}</Text> : <Text style={styles.text}>no data</Text>}
+            */}
+            {qrData ? <Text style={styles.text}>{qrData}</Text> : null}
           </View>
         </CameraView>
         
