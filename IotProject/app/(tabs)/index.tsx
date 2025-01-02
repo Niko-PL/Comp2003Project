@@ -5,45 +5,72 @@ import { Icon } from 'react-native-elements';
 
 import { DeviceCardElement } from '@/components/DeviceCard';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import DeviceDetails from '../DeviceDetails';
+
+const Stack = createNativeStackNavigator();
+
 export default function HomeScreen() {
   return (
-    <View style={styles.container}>
-      {/* Header */}
-      <ThemedText style={styles.header}>Your Devices</ThemedText>
 
-      {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <Icon name="search" type="font-awesome" size={20} style={styles.searchIcon} />
-        <TextInput placeholder="Search ... 2 Devices" style={styles.searchInput} />
-      </View>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen 
+          name="MainPage" 
+          component={MainPage} 
+          
+        />
+        <Stack.Screen 
+          name="DeviceDetails" 
+          component={DeviceDetails} 
+        />
+      </Stack.Navigator>
 
-      {/* Filter and Grid Buttons */}
-      <View style={styles.filterGridContainer}>
-        <TouchableOpacity style={styles.PropertyButton}>
-          <Icon name="filter" type="font-awesome" size={25} color='#FF5733' />
-          <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18  }}>Filter</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.PropertyButton}>
-          <Icon name="th-large" type="font-awesome" size={25} color="#FF5733" />
-          <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18 }}>Grid</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Device List */}
-      <ScrollView style={styles.deviceList}>
-
-        <DeviceCardElement deviceName='Tracker One' lastMaintenance='300' gpsLocation='40.741895, -73.989308'/>
-
-      </ScrollView>
-
-    </View>
   );
 };
+
+
+
+const MainPage = ({navigation}: {navigation: any}) => {
+  return (
+    <View style={styles.container}>
+    {/* Header */}
+    <ThemedText style={styles.header}>Your Devices</ThemedText>
+
+    {/* Search Bar */}
+    <View style={styles.searchContainer}>
+      <Icon name="search" type="font-awesome" size={25} color="#FF5733" style={styles.searchIcon} />
+      <TextInput placeholder="Search ... " placeholderTextColor="#0D2A3880" style={styles.searchInput} />
+    </View>
+
+    {/* Filter and Grid Buttons */}
+    <View style={styles.filterGridContainer}>
+      <TouchableOpacity style={styles.PropertyButton}>
+        <Icon style={styles.IconCircle} name="filter" type="font-awesome" size={15} color='#FFFFFF' />
+        <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18  }}>Filter</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.PropertyButton}>
+        <Icon style={styles.IconCircle} name="th-large" type="font-awesome" size={15} color="#FFFFFF" />
+        <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18 }}>Grid</Text>
+      </TouchableOpacity>
+    </View>
+
+    {/* Device List */}
+    <ScrollView style={styles.deviceList}>
+
+      <DeviceCardElement deviceName='Tracker One' lastMaintenance='300' gpsLocation='40.741895, -73.989308' navigation={navigation}/>
+
+    </ScrollView>
+
+    </View>
+  )
+}
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     fontSize: 24,
@@ -56,13 +83,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 8,
+    borderRadius: 20,
     margin: 12,
     height: 40,
     paddingHorizontal: 10,
+    borderColor: '#0D2A38',
+    borderWidth: 3,
     elevation: 2,
   },
   searchIcon: {
+    color: '#FF5733',
     marginRight: 5,
   },
   searchInput: {
@@ -76,49 +106,28 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 10,
   },
+  IconCircle: {
+    backgroundColor: '#FF5733',
+    borderRadius: 50,
+    width: 30,
+    padding: 5
+  },
   PropertyButton: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignContent: 'center',
     backgroundColor: '#FF573300',
-    borderColor: '#FF5733',
+    borderColor: '#0D2A38',
     borderWidth: 3,
     paddingTop: 5,
     paddingBottom: 5,
-    paddingLeft: 20,
+    paddingLeft: 10,
     paddingRight: 20,
-    borderRadius: 20,
+    borderRadius: 30,
   },
   deviceList: {
     flex: 1,
     marginHorizontal: 10,
-  },
-  deviceCard: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 10,
-    elevation: 2,
-  },
-  deviceImage: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
-  },
-  deviceDetails: {
-    flex: 1,
-  },
-  deviceName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  deviceInfo: {
-    fontSize: 14,
-    color: '#666666',
-  },
-  deviceWarning: {
-    fontSize: 14,
-    color: '#FF5733',
+    
   },
 });

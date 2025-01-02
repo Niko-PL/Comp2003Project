@@ -8,9 +8,16 @@ export function DeviceCardElement ({
     gpsLocation = "N/A",
     warning = null,
     imageUrl = "https://via.placeholder.com/50",
+    navigation,
 }){
   return (
-    <TouchableOpacity style={styles.deviceCard}>
+    <TouchableOpacity style={styles.deviceCard} onPress={() => navigation.navigate('DeviceDetails', {
+      deviceName: deviceName,
+      lastMaintenance: lastMaintenance,
+      gpsLocation: gpsLocation,
+      warning: warning,
+      imageUrl: imageUrl,
+    })}>
     <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
         <View style={styles.deviceDetails}>
         <Text style={styles.deviceName}>{deviceName}</Text>
@@ -39,8 +46,15 @@ const styles = StyleSheet.create({
       backgroundColor: '#FFFFFF',
       borderRadius: 8,
       padding: 10,
+      width: '98%',
+      alignSelf: 'center',
       marginBottom: 10,
       elevation: 2,
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      
     },
     deviceImage: {
       width: 50,
