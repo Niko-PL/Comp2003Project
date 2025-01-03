@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
     deviceCard: {
       flexDirection: 'row',
       backgroundColor: '#FFFFFF',
+      top: 10,
       borderRadius: 8,
       padding: 10,
       width: '98%',
@@ -51,9 +52,9 @@ const styles = StyleSheet.create({
       marginBottom: 10,
       elevation: 2,
       shadowColor: '#000000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
+      shadowOffset: { width: 0, height:4 },
+      shadowOpacity: 0.5,
+      shadowRadius: 10,
       
     },
     deviceImage: {

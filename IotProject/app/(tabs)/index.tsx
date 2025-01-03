@@ -58,7 +58,7 @@ const MainPage = ({navigation}: {navigation: any}) => {
     {/* Device List */}
     <ScrollView style={styles.deviceList}>
 
-      <DeviceCardElement deviceName='Tracker One' lastMaintenance='300' gpsLocation='40.741895, -73.989308' navigation={navigation}/>
+      <DeviceCardElement deviceName='Tracker One' lastMaintenance='300' gpsLocation='50.38103 , -4.13800' navigation={navigation}/>
 
     </ScrollView>
 
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
   deviceList: {
     flex: 1,
     marginHorizontal: 10,
+    
     
   },
 });
