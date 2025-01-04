@@ -3,9 +3,14 @@ import { StyleSheet } from 'react-native';
 
 
 
-export function MobileMap(props) {
+export function MobileMap(props : any) {
     return (
-      null
+      <iframe
+      style={styles.MapDisplay}
+      loading="lazy"
+      src="https://www.google.com/maps/embed/v1/place?key=API_KEY
+        &q={}">
+      </iframe>
     )
 }
 

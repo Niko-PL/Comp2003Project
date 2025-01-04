@@ -59,7 +59,7 @@ const MainPage = ({navigation}: {navigation: any}) => {
     <ScrollView style={styles.deviceList}>
 
       <DeviceCardElement deviceName='Tracker One' lastMaintenance='300' gpsLocation='50.38103 , -4.13800' navigation={navigation}/>
-
+      <DeviceCardElement deviceName='Tracker Two' lastMaintenance='100' gpsLocation='50.58103 , -4.13800' navigation={navigation}/>
     </ScrollView>
 
     </View>

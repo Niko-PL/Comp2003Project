@@ -1,7 +1,7 @@
 import MapView , {Marker} from 'react-native-maps';
 import { StyleSheet } from 'react-native';
 
-export function MobileMap(props) {
+export function MobileMap(props : any) {
     return (
         <MapView style={styles.MapDisplay} initialRegion={{
             latitude: Number((props.gpsLocation).split(',')[0]),
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       borderColor: '#FF5733',
       borderWidth: 2,
-      width: 350,
-      height: 350,
+      width: 300,
+      height: 300,
     },
 
 });

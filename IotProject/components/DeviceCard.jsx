@@ -9,6 +9,7 @@ export function DeviceCardElement ({
     warning = null,
     imageUrl = "https://via.placeholder.com/50",
     navigation,
+    installDate = "11/11/2024",
 }){
   return (
     <TouchableOpacity style={styles.deviceCard} onPress={() => navigation.navigate('DeviceDetails', {
@@ -17,6 +18,7 @@ export function DeviceCardElement ({
       gpsLocation: gpsLocation,
       warning: warning,
       imageUrl: imageUrl,
+      installDate   : installDate
     })}>
     <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
         <View style={styles.deviceDetails}>

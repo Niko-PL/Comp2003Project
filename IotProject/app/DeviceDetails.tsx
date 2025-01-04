@@ -5,28 +5,28 @@ import { useNavigation } from 'expo-router';
 
 
 
-
+import { DropDownComp } from '@/components/DropDownComp'; 
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
 
  
 function DeviceDetails({ route }) {
     const navigation = useNavigation();
-    const { deviceName , lastMaintenance , gpsLocation, imageUrl} = route.params;
+    const { deviceName , lastMaintenance , gpsLocation, imageUrl , installDate} = route.params;
 
     return (
-      <View style={styles.container}>
-         
-         
+      <View style={styles.container}>                  
           <ThemedText style={styles.header}>
               <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
               {deviceName}
           </ThemedText>
           
           <MobileMap gpsLocation={gpsLocation} />
-
+        <DropDownComp />
         <View style={styles.DeviceInfomation}>
-          <Text style={styles.deviceInfo}>Last Maintenance: {lastMaintenance} days ago</Text>
           <Text style={styles.deviceInfo}>GPS LOCATION: {gpsLocation}</Text>
+          <Text style={styles.deviceInfo}>Install Date: {installDate}</Text>
+          <Text style={styles.deviceInfo}>Last Maintenance: {lastMaintenance} days ago</Text>
+          
         </View>
       </View>
     )
@@ -57,13 +57,12 @@ const styles = StyleSheet.create({
         marginTop: 60,
       },
     
-    MapDisplay: {
-      alignSelf: 'center',
-      borderRadius: 20,
-      borderColor: '#FF5733',
-      borderWidth: 2,
-      width: 350,
-      height: 350,
+
+    deviceInfo: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      alignSelf: 'flex-start',
+      marginLeft: 10,
     },
 
     deviceImage: {
