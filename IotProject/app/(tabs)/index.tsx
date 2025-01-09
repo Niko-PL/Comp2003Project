@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/ThemedText';
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 //import { DeviceCardElement } from '@/components/DeviceCard';
@@ -34,6 +34,16 @@ export default function HomeScreen() {
 
 
 const MainPage = ({navigation}: {navigation: any}) => {
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  {/* Refresh Control to change when API is introduced*/}
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+  
   return (
     <View style={styles.container}>
     {/* Header */}
@@ -58,7 +68,9 @@ const MainPage = ({navigation}: {navigation: any}) => {
     </View>
 
     {/* Device List */}
-    <ScrollView style={styles.deviceList}>
+    <ScrollView style={styles.deviceList} refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <CreateDeviceCardListFromJson navigation={navigation} />
     </ScrollView>
 
