@@ -3,7 +3,9 @@ import React from 'react';
 import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import { DeviceCardElement } from '@/components/DeviceCard';
+//import { DeviceCardElement } from '@/components/DeviceCard';
+
+import { CreateDeviceCardListFromJson } from '@/components/CreateDeviceCardListFromJson'
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -57,9 +59,7 @@ const MainPage = ({navigation}: {navigation: any}) => {
 
     {/* Device List */}
     <ScrollView style={styles.deviceList}>
-
-      <DeviceCardElement deviceName='Tracker One' lastMaintenance='300' gpsLocation='50.38103 , -4.13800' navigation={navigation}/>
-      <DeviceCardElement deviceName='Tracker Two' lastMaintenance='100' gpsLocation='50.58103 , -4.13800' navigation={navigation}/>
+      <CreateDeviceCardListFromJson navigation={navigation} />
     </ScrollView>
 
     </View>

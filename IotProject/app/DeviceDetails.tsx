@@ -9,9 +9,9 @@ import { DropDownComp } from '@/components/DropDownComp';
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
 
  
-function DeviceDetails({ route }) {
+function DeviceDetails({ route } : { route: any }) {
     const navigation = useNavigation();
-    const { deviceName , lastMaintenance , gpsLocation, imageUrl , installDate} = route.params;
+    const { deviceName , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
 
     return (
       <View style={styles.container}>                  
@@ -26,6 +26,7 @@ function DeviceDetails({ route }) {
           <Text style={styles.deviceInfo}>GPS LOCATION: {gpsLocation}</Text>
           <Text style={styles.deviceInfo}>Install Date: {installDate}</Text>
           <Text style={styles.deviceInfo}>Last Maintenance: {lastMaintenance} days ago</Text>
+          <Text style={styles.deviceInfo}>Notes: {"\n"} {DeviceNotes}</Text>
           
         </View>
       </View>
