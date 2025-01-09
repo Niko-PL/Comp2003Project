@@ -13,6 +13,7 @@ A location for all files for the cw to exist
 ### From Terminal
 ```
   cd ./IotProject/
+  npm install
   npx expo start
 ```
 this should start the protoype where you can connect from web at localhost or by EXPO GO on your mobile device
