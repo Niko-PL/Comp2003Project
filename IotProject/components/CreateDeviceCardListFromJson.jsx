@@ -13,7 +13,7 @@ var SampleJson = {
             "longitude" : "-4.13800"
         },
         "warning": null,
-        "imageUrl": "https://via.placeholder.com/50",
+        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
@@ -26,7 +26,7 @@ var SampleJson = {
             "longitude" : "-4.13800"
         },
         "warning": "Needs Maintenance",
-        "imageUrl": "https://via.placeholder.com/50",
+        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
