@@ -11,24 +11,28 @@ import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds
  
 function DeviceDetails({ route } : { route: any }) {
     const navigation = useNavigation();
-    const { deviceName , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
+    const { deviceName , deviceModel , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
 
     return (
-      <View style={styles.container}>                  
-          <ThemedText style={styles.header}>
+      <View style={styles.container}>    
+                    
+        <ThemedText style={styles.header}>
               <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
               {deviceName}
-          </ThemedText>
-          
-          <MobileMap gpsLocation={gpsLocation} />
+        </ThemedText>
         <DropDownComp />
+          
+        <ScrollView>
+        <MobileMap gpsLocation={gpsLocation} />
         <View style={styles.DeviceInfomation}>
+          <Text style={styles.deviceInfo}>Device Model: {deviceModel}</Text>
           <Text style={styles.deviceInfo}>GPS LOCATION: {gpsLocation}</Text>
           <Text style={styles.deviceInfo}>Install Date: {installDate}</Text>
           <Text style={styles.deviceInfo}>Last Maintenance: {lastMaintenance} days ago</Text>
           <Text style={styles.deviceInfo}>Notes: {"\n"} {DeviceNotes}</Text>
           
         </View>
+        </ScrollView>
       </View>
     )
   }
@@ -55,7 +59,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
         color: '#000000',
-        marginTop: 60,
+        marginTop: 20,
       },
     
 
@@ -75,6 +79,7 @@ const styles = StyleSheet.create({
     DeviceInfomation: {
       display: 'flex',
       flexDirection: 'column',
+      marginTop: 20,
       alignItems: 'center',
     }
 });

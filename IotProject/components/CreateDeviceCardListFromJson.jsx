@@ -6,20 +6,30 @@ import { DeviceCardElement } from '@/components/DeviceCard';
 // change core function of the API call in FetchAPIdata()
 var SampleJson = {
     "Test Device 1" : {
+        "model": "TS-5000",
         "lastMaintenance": "N/A",
-        "gpsLocation": "50.38103 , -4.13800",
+        "gpsLocation": {
+            "latitude" : "50.38103", 
+            "longitude" : "-4.13800"
+        },
         "warning": null,
         "imageUrl": "https://via.placeholder.com/50",
         "installDate": "11/11/2024",
-        "DeviceNotes": "N/A"
+        "DeviceNotes": "N/A",
+        "technicalDocs": "https://www.google.com"
     },
     "Test Device 2" : {
+        "model": "TS-5000",
         "lastMaintenance": "N/A",
-        "gpsLocation": "50.58103 , -4.13800",
+        "gpsLocation": {
+            "latitude" : "50.58103", 
+            "longitude" : "-4.13800"
+        },
         "warning": "Needs Maintenance",
         "imageUrl": "https://via.placeholder.com/50",
         "installDate": "11/11/2024",
-        "DeviceNotes": "N/A"
+        "DeviceNotes": "N/A",
+        "technicalDocs": "https://www.google.com"
     }
 }
 
@@ -28,17 +38,19 @@ export function CreateDeviceCardListFromJson(props){
     var ApiData = FetchAPIdata();
     var DeviceCardList = [];
     for (var device in ApiData){
+        DeviceData = ApiData[device];
         DeviceCardList.push(
             <DeviceCardElement 
                 key={device}
                 deviceName={device}
-                lastMaintenance={ApiData[device].lastMaintenance}
-                gpsLocation={ApiData[device].gpsLocation}
-                warning={ApiData[device].warning}
-                imageUrl={ApiData[device].imageUrl}
+                deviceModel={DeviceData.model}
+                lastMaintenance={DeviceData.lastMaintenance}
+                gpsLocation={DeviceData.gpsLocation["latitude"] + ", " + DeviceData.gpsLocation["longitude"]}
+                warning={DeviceData.warning}
+                imageUrl={DeviceData.imageUrl}
                 navigation={props.navigation}
-                installDate={ApiData[device].installDate}
-                DeviceNotes={ApiData[device].DeviceNotes}
+                installDate={DeviceData.installDate}
+                DeviceNotes={DeviceData.DeviceNotes}
             />
         )
     }

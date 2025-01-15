@@ -1,23 +1,41 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Dimensions  } from "react-native";
-import React, { useState } from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput, Dimensions , ScrollView, KeyboardAvoidingView } from "react-native";
+import React, { useState , useRef } from "react";
 import { Button, Input } from "react-native-elements";
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
+import { color } from "react-native-elements/dist/helpers";
+
 
 export default function AddNewDevice() {
-    
+    const scrollViewRef = useRef();
 
 
     return (
         <View style={styles.container}>
             <Text style={styles.header}>Enter Details</Text>
-            <Image source={require('@/assets/images/adaptive-icon.png')} style={styles.ImageContainer}/>
-            <View style={styles.InputContainer}>
-                <InputCard InputHeader="Device Name" InputPlaceholder="Device Name"/>
-                <DateCard DateHeader="Install Date" DatePlaceholder="Install Date"/>
-                <DateCard DateHeader="Last Maintenance" DatePlaceholder="Last Maintenance"/>
-                <InputCard InputHeader="Additional Notes" InputPlaceholder="Notes" MaxLines={10} multiline={true}/>
-            </View>
+            <KeyboardAvoidingView style={{flex : 1}}  behavior={"padding"} enabled  keyboardVerticalOffset={0}>
+            <ScrollView 
+                  ref={scrollViewRef}
+                  onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+            >
+              <Image source={require('@/assets/images/adaptive-icon.png')} style={styles.ImageContainer}/>
+              <TouchableOpacity style={styles.SubmitButton}>
+                    <Text style={styles.SubmitButtonText}>Upload File</Text>  
+              </TouchableOpacity>            
+              <View style={styles.InputContainer}>
+                  <InputCard InputHeader="Device Name" InputPlaceholder="Device Name"/>
+                  <InputCard InputHeader="Device Model" InputPlaceholder="Device Model"/>
+                  <DateCard DateHeader="Install Date" DatePlaceholder="Install Date"/>
+                  <DateCard DateHeader="Last Maintenance" DatePlaceholder="Last Maintenance"/>
+                  <InputCard InputHeader="Techincal Docs" InputPlaceholder="Techincal Docs"/>
+                  <InputCard InputHeader="Additional Notes" InputPlaceholder="Notes" MaxLines={10} multiline={true}/>
+                  <TouchableOpacity style={styles.SubmitButton}>
+                    <Text style={styles.SubmitButtonText}>Create Device</Text>  
+                  </TouchableOpacity>
+              </View>
+             
+            </ScrollView>
+            </KeyboardAvoidingView>
         </View>
     )
 
@@ -89,11 +107,13 @@ const styles = StyleSheet.create({
       },
 
       ImageContainer: {
+        alignSelf: 'center',
+        borderWidth: 3,
+        borderColor: '#000000',
         width: 200,
         height: 200,
 
         marginTop: 10,
-        marginLeft: 20,
       },
 
       InputContainer: {
@@ -101,6 +121,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
         margin: 10,
+        paddingBottom: 200,
      
 
         elevation: 2,
@@ -111,7 +132,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
 
         margin: 12,
-        height: 70,
+        minHeight: 70,
         paddingHorizontal: 10,
         borderBottomColor: '#000000',
         borderBottomWidth: 3,
@@ -146,6 +167,18 @@ const styles = StyleSheet.create({
       InputButtonBox: {
         backgroundColor: 'rgba(0,0,0,0)',
       },
+
+      SubmitButton: {
+        backgroundColor: '#FF5733',
+        borderRadius: 20,
+        padding: 10,
+        margin: 10,
+        alignItems: 'center',
+      },
+
+      SubmitButtonText: {
+        color: '#FFFFFF',
+      }
 
       
 }
