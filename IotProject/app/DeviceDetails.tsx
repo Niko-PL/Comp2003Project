@@ -16,10 +16,10 @@ function DeviceDetails({ route } : { route: any }) {
     return (
       <View style={styles.container}>    
                     
-        <ThemedText style={styles.header}>
+        <View style={styles.header}>
               <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
-              {deviceName}
-        </ThemedText>
+              <ThemedText style={styles.headerText}>{deviceName}</ThemedText> 
+        </View>
         <DropDownComp />
           
         <ScrollView>
@@ -54,13 +54,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10,
-        fontSize: 40,
         
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color: '#000000',
-        marginTop: 20,
+        
+
+        
+        marginTop: 50,
       },
+
+    headerText: {
+      
+      fontSize: 25,
+      
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#000000',
+    },
     
 
     deviceInfo: {

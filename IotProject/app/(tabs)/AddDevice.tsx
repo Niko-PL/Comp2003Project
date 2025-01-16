@@ -3,7 +3,6 @@ import React, { useState , useRef } from "react";
 import { Button, Input } from "react-native-elements";
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
-import { color } from "react-native-elements/dist/helpers";
 
 
 export default function AddNewDevice() {
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
         margin: 10,
         paddingBottom: 200,
      
-
+ 
         elevation: 2,
       },
 

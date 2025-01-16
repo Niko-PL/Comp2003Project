@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 
 export function DeviceCardElement ({
+    deviceid = "Unknown ID",
     deviceName = "Unknown Device",
     lastMaintenance = "N/A",
     gpsLocation = "N/A",
@@ -15,6 +16,7 @@ export function DeviceCardElement ({
 }){
   return (
     <TouchableOpacity style={styles.deviceCard} onPress={() => navigation.navigate('DeviceDetails', {
+      deviceid: deviceid,
       deviceName: deviceName,
       lastMaintenance: lastMaintenance,
       gpsLocation: gpsLocation,

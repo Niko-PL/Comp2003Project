@@ -5,7 +5,8 @@ import { DeviceCardElement } from '@/components/DeviceCard';
 // will have to change some of this code but this is the base function
 // change core function of the API call in FetchAPIdata()
 var SampleJson = {
-    "Test Device 1" : {
+    "D0" : {
+        "name" : "Test Device 1",
         "model": "TS-5000",
         "lastMaintenance": "N/A",
         "gpsLocation": {
@@ -18,7 +19,8 @@ var SampleJson = {
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
     },
-    "Test Device 2" : {
+    "D1" : {
+        "name" : "Test Device 2",
         "model": "TS-5000",
         "lastMaintenance": "N/A",
         "gpsLocation": {
@@ -42,7 +44,8 @@ export function CreateDeviceCardListFromJson(props){
         DeviceCardList.push(
             <DeviceCardElement 
                 key={device}
-                deviceName={device}
+                id={device}
+                deviceName={DeviceData.name}
                 deviceModel={DeviceData.model}
                 lastMaintenance={DeviceData.lastMaintenance}
                 gpsLocation={DeviceData.gpsLocation["latitude"] + ", " + DeviceData.gpsLocation["longitude"]}
