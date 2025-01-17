@@ -5,8 +5,22 @@ import { FetchAllAPIdata } from '@/components/APIHandler';
 export function CreateDeviceCardListFromJson(props){
     var ApiData = FetchAllAPIdata();
     var DeviceCardList = [];
-    for (var device in ApiData){
-        DeviceData = ApiData[device];
+
+    const filteredDevices = Object.entries(ApiData).filter(([id, device]) => {
+        if (!props.searchQuery) return true; // Show all if no search query
+        
+        const searchLower = props.searchQuery.toLowerCase();
+        return (
+            device.name.toLowerCase().includes(searchLower) ||
+            device.model.toLowerCase().includes(searchLower) ||
+            device.gpsLocation.latitude.toString().includes(searchLower) ||
+            device.gpsLocation.longitude.toString().includes(searchLower)
+        );
+    });
+
+
+    for (const [device, DeviceData] of filteredDevices){
+        
         DeviceCardList.push(
             <DeviceCardElement 
                 key={device}

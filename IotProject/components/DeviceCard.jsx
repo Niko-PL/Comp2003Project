@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
         return {
           fontSize: 13,
           fontWeight: 'bold',
+          width: 100,
         }
       }
 

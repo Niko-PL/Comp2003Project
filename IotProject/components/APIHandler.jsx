@@ -31,7 +31,7 @@ var SampleJson = {
         "technicalDocs": "https://www.google.com"
     },
     "D2" : {
-        "name" : "Test Device 3",
+        "name" : "GPS Tracker",
         "model": "TS-5000",
         "lastMaintenance": "N/A",
         "gpsLocation": {
@@ -45,12 +45,12 @@ var SampleJson = {
         "technicalDocs": "https://www.google.com"
     },
     "D3" : {
-        "name" : "Test Device 4",
-        "model": "TS-5000",
+        "name" : "HP computer 23",
+        "model": "HP2005",
         "lastMaintenance": "N/A",
         "gpsLocation": {
-            "latitude" : "50.58103", 
-            "longitude" : "-4.13800"
+            "latitude" : "51.4492", 
+            "longitude" : "-2.58031"
         },
         "imageUrl": "https://dummyimage.com/50.png/09f/fff",
         "installDate": "11/11/2024",
@@ -58,8 +58,8 @@ var SampleJson = {
         "technicalDocs": "https://www.google.com"
     },
     "D4" : {
-        "name" : "Test Device 5",
-        "model": "TS-5000",
+        "name" : "HP Main Server rack",
+        "model": "HPServer2003",
         "lastMaintenance": "N/A",
         "gpsLocation": {
             "latitude" : "50.58103", 

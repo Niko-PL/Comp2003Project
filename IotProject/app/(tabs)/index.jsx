@@ -36,6 +36,7 @@ export default function HomeScreen() {
 const MainPage = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [deviceList, setDeviceList] = React.useState('List');
+  const [searchQuery, setSearchQuery] = React.useState('');
 
   {/* Refresh Control to change when API is introduced*/}
   const onRefresh = React.useCallback(() => {
@@ -53,7 +54,7 @@ const MainPage = ({navigation}) => {
     {/* Search Bar */}
     <View style={styles.searchContainer}>
       <Icon name="search" type="font-awesome" size={25} color="#FF5733" style={styles.searchIcon} />
-      <TextInput placeholder="Search ... " placeholderTextColor="#0D2A3880" style={styles.searchInput} />
+      <TextInput placeholder="Search ... " placeholderTextColor="#0D2A3880" style={styles.searchInput} value={searchQuery} onChangeText={setSearchQuery}/>
     </View>
 
     {/* Filter and Grid Buttons */}
@@ -72,7 +73,7 @@ const MainPage = ({navigation}) => {
     <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}} style={styles.deviceList(deviceList)} refreshControl={
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
     }>
-      <CreateDeviceCardListFromJson navigation={navigation} styletype={deviceList} />
+      <CreateDeviceCardListFromJson navigation={navigation} styletype={deviceList} searchQuery={searchQuery} />
     </ScrollView>
 
     </View>
