@@ -104,6 +104,14 @@ function QRDevice({deviceid , navigation} : {deviceid: string , navigation: any}
   console.log(deviceid);
   const DeviceData = FetchoneAPIdata(deviceid);
 
+  if (DeviceData == null) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.message}>Device not found</Text>
+      </View>
+    );
+  }
+
   return (
     <TouchableOpacity style={styles.DevicePopupContainer}onPress={() => navigation.navigate('DeviceDetails', {
       deviceid: deviceid,
@@ -130,6 +138,9 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     message: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      color: '#FFFFFF',
       textAlign: 'center',
       paddingBottom: 10,
     },
