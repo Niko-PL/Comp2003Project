@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity 
 import { ThemedText } from '@/components/ThemedText';
 import { useNavigation } from 'expo-router';
 
-
+import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { DropDownComp } from '@/components/DropDownComp'; 
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
@@ -11,24 +11,33 @@ import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds
  
 function DeviceDetails({ route } : { route: any }) {
     const navigation = useNavigation();
-    const { deviceName , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
+    const { deviceName , deviceModel , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
 
     return (
-      <View style={styles.container}>                  
-          <ThemedText style={styles.header}>
+      <View style={styles.container}>    
+                    
+        <View style={styles.header}>
               <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
-              {deviceName}
-          </ThemedText>
+              <ThemedText style={styles.headerText}>{deviceName}</ThemedText> 
+        </View>
+        <View style={styles.logContainer}>
+          <DropDownComp />
+          <TouchableOpacity style={styles.CreateLogButton}>
+            <IconSymbol name="plus" size={30} color="#FF5733" />
+          </TouchableOpacity>
+        </View>
           
-          <MobileMap gpsLocation={gpsLocation} />
-        <DropDownComp />
+        <ScrollView>
+        <MobileMap gpsLocation={gpsLocation} />
         <View style={styles.DeviceInfomation}>
+          <Text style={styles.deviceInfo}>Device Model: {deviceModel}</Text>
           <Text style={styles.deviceInfo}>GPS LOCATION: {gpsLocation}</Text>
           <Text style={styles.deviceInfo}>Install Date: {installDate}</Text>
           <Text style={styles.deviceInfo}>Last Maintenance: {lastMaintenance} days ago</Text>
           <Text style={styles.deviceInfo}>Notes: {"\n"} {DeviceNotes}</Text>
           
         </View>
+        </ScrollView>
       </View>
     )
   }
@@ -50,13 +59,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 10,
-        fontSize: 40,
         
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color: '#000000',
-        marginTop: 60,
+        
+
+        
+        marginTop: 50,
       },
+
+    headerText: {
+      
+      fontSize: 25,
+      
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#000000',
+    },
     
 
     deviceInfo: {
@@ -75,6 +92,21 @@ const styles = StyleSheet.create({
     DeviceInfomation: {
       display: 'flex',
       flexDirection: 'column',
+      marginTop: 20,
       alignItems: 'center',
+    },
+
+    logContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 20,
+    },
+
+    CreateLogButton: {
+      borderWidth: 5,
+      borderColor: '#0D2A38',
+      borderRadius: 90,
+      padding: 3,
     }
 });

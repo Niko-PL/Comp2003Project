@@ -50,6 +50,14 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol name="qrcode" size={30} color={color} />,
         }}
       />
+
+      <Tabs.Screen
+        name="Settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <IconSymbol name="gear" size={30} color={color} />,
+        }}
+      />
     </Tabs>
   );
 }
