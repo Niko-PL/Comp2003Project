@@ -168,7 +168,10 @@ const styles = StyleSheet.create({
       },
 
       SubmitButton: {
+        alignSelf: 'center',
         backgroundColor: '#FF5733',
+        paddingLeft: 40,
+        paddingRight: 40,
         borderRadius: 20,
         padding: 10,
         margin: 10,

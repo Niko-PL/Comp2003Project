@@ -33,8 +33,9 @@ export default function HomeScreen() {
 
 
 
-const MainPage = ({navigation}: {navigation: any}) => {
+const MainPage = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
+  const [deviceList, setDeviceList] = React.useState('List');
 
   {/* Refresh Control to change when API is introduced*/}
   const onRefresh = React.useCallback(() => {
@@ -61,23 +62,23 @@ const MainPage = ({navigation}: {navigation: any}) => {
         <Icon style={styles.IconCircle} name="filter" type="font-awesome" size={15} color='#FFFFFF' />
         <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18  }}>Filter</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.PropertyButton}>
+      <TouchableOpacity style={styles.PropertyButton} onPress={() => setDeviceList(deviceList == 'List' ? 'Grid' : 'List')}>
         <Icon style={styles.IconCircle} name="th-large" type="font-awesome" size={15} color="#FFFFFF" />
-        <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18 }}>Grid</Text>
+        <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18 }}>{deviceList}</Text>
       </TouchableOpacity>
     </View>
 
     {/* Device List */}
-    <ScrollView style={styles.deviceList} refreshControl={
+    <ScrollView contentContainerStyle={{flexDirection: 'row', flexWrap: 'wrap'}} style={styles.deviceList(deviceList)} refreshControl={
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
     }>
-      <CreateDeviceCardListFromJson navigation={navigation} />
+      <CreateDeviceCardListFromJson navigation={navigation} styletype={deviceList} />
     </ScrollView>
 
     </View>
   )
 }
-
+/* horizontal={deviceList == 'List' ? false : true} */
 
 const styles = StyleSheet.create({
   container: {
@@ -137,10 +138,21 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     borderRadius: 30,
   },
-  deviceList: {
-    flex: 1,
-    marginHorizontal: 10,
-    
+  deviceList: (styletype) => {
+
+    if (styletype === 'List') {
+      return {
+        flex: 1,
+        marginHorizontal: 10,
+      }
+    }
+  
+    return {
+
+      flex: 1,
+      
+      marginHorizontal: 10,
+    }
     
   },
 });

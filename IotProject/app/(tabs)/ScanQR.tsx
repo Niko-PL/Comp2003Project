@@ -19,37 +19,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const NewStack = createNativeStackNavigator();
 import DeviceDetails from '../DeviceDetails';
-
-var SampleJson = {
-  "D0" : {
-      "name" : "Test Device 1",
-      "model": "TS-5000",
-      "lastMaintenance": "N/A",
-      "gpsLocation": {
-          "latitude" : "50.38103", 
-          "longitude" : "-4.13800"
-      },
-      "warning": null,
-      "imageUrl": "https://dummyimage.com/50.png/09f/fff",
-      "installDate": "11/11/2024",
-      "DeviceNotes": "N/A",
-      "technicalDocs": "https://www.google.com"
-  },
-  "D1" : {
-      "name" : "Test Device 2",
-      "model": "TS-5000",
-      "lastMaintenance": "N/A",
-      "gpsLocation": {
-          "latitude" : "50.58103", 
-          "longitude" : "-4.13800"
-      },
-      "warning": "Needs Maintenance",
-      "imageUrl": "https://dummyimage.com/50.png/09f/fff",
-      "installDate": "11/11/2024",
-      "DeviceNotes": "N/A",
-      "technicalDocs": "https://www.google.com"
-  }
-}
+import { FetchAllAPIdata , FetchoneAPIdata } from '@/components/APIHandler';
 
 
 export default function Home() {
@@ -107,7 +77,7 @@ const MainQRPage = ({navigation}: {navigation: any}) => {
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing} barcodeScannerSettings={{ barcodeTypes: ["qr"],}} onBarcodeScanned={handleBarcodeScanned} >
+      <CameraView style={styles.camera} facing={facing} barcodeScannerSettings={{ barcodeTypes: ["qr"], }}  onBarcodeScanned={handleBarcodeScanned} >
         {qrData ?
           <QRDevice deviceid={qrData} navigation={navigation} />
         : 
@@ -132,7 +102,7 @@ const MainQRPage = ({navigation}: {navigation: any}) => {
 
 function QRDevice({deviceid , navigation} : {deviceid: string , navigation: any}) {
   console.log(deviceid);
-  const DeviceData = SampleJson[deviceid];
+  const DeviceData = FetchoneAPIdata(deviceid);
 
   return (
     <TouchableOpacity style={styles.DevicePopupContainer}onPress={() => navigation.navigate('DeviceDetails', {

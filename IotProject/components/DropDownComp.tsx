@@ -18,7 +18,7 @@ export function DropDownComp(props : any) {
           {item.value === value && (
             <AntDesign
               style={styles.icon}
-              color="black"
+              color="white"
               name="Safety"
               size={20}
             />
@@ -46,7 +46,7 @@ export function DropDownComp(props : any) {
           setValue(item.value);
         }}
         renderLeftIcon={() => (
-          <AntDesign style={styles.icon} color="black" name="Safety" size={20} />
+          <AntDesign style={styles.icon} color="white" name="book" size={20} />
         )}
         renderItem={renderItem}
       />
@@ -55,10 +55,14 @@ export function DropDownComp(props : any) {
 
 const styles = StyleSheet.create({
     dropdown: {
-      margin: 16,
+      margin: 10,
       height: 50,
+      width: '75%',
       borderBottomColor: 'gray',
       borderBottomWidth: 0.5,
+      backgroundColor: '#0D2A38',
+      borderRadius: 25,
+      padding: 10,
     },
     item: {
         margin: 10,
@@ -70,17 +74,21 @@ const styles = StyleSheet.create({
       marginRight: 5,
     },
     placeholderStyle: {
-      fontSize: 16,
+      fontSize: 20,
+      color: '#FFFFFF',
     },
     selectedTextStyle: {
       fontSize: 16,
+      color: '#FFFFFF',
     },
     iconStyle: {
       width: 20,
       height: 20,
+      
     },
     inputSearchStyle: {
       height: 40,
       fontSize: 16,
+      color: '#FFFFFF',
     },
   });

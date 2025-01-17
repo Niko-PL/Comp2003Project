@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity 
 import { ThemedText } from '@/components/ThemedText';
 import { useNavigation } from 'expo-router';
 
-
+import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { DropDownComp } from '@/components/DropDownComp'; 
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
@@ -20,7 +20,12 @@ function DeviceDetails({ route } : { route: any }) {
               <Image source={{ uri: imageUrl }} style={styles.deviceImage} />
               <ThemedText style={styles.headerText}>{deviceName}</ThemedText> 
         </View>
-        <DropDownComp />
+        <View style={styles.logContainer}>
+          <DropDownComp />
+          <TouchableOpacity style={styles.CreateLogButton}>
+            <IconSymbol name="plus" size={30} color="#FF5733" />
+          </TouchableOpacity>
+        </View>
           
         <ScrollView>
         <MobileMap gpsLocation={gpsLocation} />
@@ -89,5 +94,19 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       marginTop: 20,
       alignItems: 'center',
+    },
+
+    logContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginTop: 20,
+    },
+
+    CreateLogButton: {
+      borderWidth: 5,
+      borderColor: '#0D2A38',
+      borderRadius: 90,
+      padding: 3,
     }
 });
