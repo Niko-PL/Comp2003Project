@@ -16,4 +16,11 @@ A location for all files for the cw to exist
   npm install
   npx expo start
 ```
+>[!WARNING]
+>If you get a dependency error try
+```
+  npm cache clear --force
+  npm install --force
+```
+
 this should start the protoype where you can connect from web at localhost or by EXPO GO on your mobile device
