@@ -1,6 +1,6 @@
 import { ThemedText } from '@/components/ThemedText';
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity ,TouchableWithoutFeedback , Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 //import { DeviceCardElement } from '@/components/DeviceCard';
@@ -47,6 +47,7 @@ const MainPage = ({navigation}) => {
   }, []);
   
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View style={styles.container}>
     {/* Header */}
     <ThemedText style={styles.header}>Your Devices</ThemedText>
@@ -55,6 +56,9 @@ const MainPage = ({navigation}) => {
     <View style={styles.searchContainer}>
       <Icon name="search" type="font-awesome" size={25} color="#FF5733" style={styles.searchIcon} />
       <TextInput placeholder="Search ... " placeholderTextColor="#0D2A3880" style={styles.searchInput} value={searchQuery} onChangeText={setSearchQuery}/>
+      <TouchableOpacity onPress={() => setSearchQuery('')}>
+        <Icon name="close" type="font-awesome" size={15} color="#FF5733" style={styles.searchIcon} />
+      </TouchableOpacity>
     </View>
 
     {/* Filter and Grid Buttons */}
@@ -77,6 +81,7 @@ const MainPage = ({navigation}) => {
     </ScrollView>
 
     </View>
+    </TouchableWithoutFeedback>
   )
 }
 /* horizontal={deviceList == 'List' ? false : true} */

@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity } from 'react-native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-
 const SettingsStack = createNativeStackNavigator();
 
 
@@ -13,7 +12,6 @@ export default function HomeScreen() {
           <SettingsStack.Screen 
             name="MainPage" 
             component={MainPage} 
-            
           />
         </SettingsStack.Navigator>
   
@@ -52,6 +50,7 @@ const MainPage = ({navigation}) => {
                 </TouchableOpacity>
               </View>
             </View>
+            {/*
             <View style={styles.subcontainer}>
               <Text style={styles.subheader}>Privacy</Text>
             </View>
@@ -61,6 +60,7 @@ const MainPage = ({navigation}) => {
             <View style={styles.subcontainer}>
               <Text style={styles.subheader}>About</Text>
             </View>
+            */}
         </View>
     )
 
