@@ -1,5 +1,5 @@
-import React, { lazy } from 'react';
-import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity , Platform} from 'react-native';
+import React, { lazy , useState } from 'react';
+import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity , Share , Dimensions} from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { useNavigation } from 'expo-router';
 
@@ -7,10 +7,13 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { DropDownComp } from '@/components/DropDownComp'; 
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
- 
+
+import QRCode from 'react-native-qrcode-svg';
+
 function DeviceDetails({ route } : { route: any }) {
     const navigation = useNavigation();
-    const { deviceName , deviceid , deviceModel , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
+    const { deviceName , deviceid  , deviceModel , warning , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
+    const [ShowQRCode, setShowQRCode] = useState(false);
 
     return (
       <View style={styles.container}>    
@@ -26,16 +29,18 @@ function DeviceDetails({ route } : { route: any }) {
               <View style={{flexDirection: 'column' }}> 
                 <ThemedText style={styles.headerText}>{deviceName}</ThemedText> 
                 <ThemedText style={styles.headerTextDeviceID}>{deviceid}</ThemedText>
+                { warning && <ThemedText style={[styles.headerTextDeviceID , {color: '#FF5733'}]}>{warning}</ThemedText>}
               </View>
 
         </View>
 
-          
+        {ShowQRCode && <QRCodePopUp id={deviceid} setShowQRCode={setShowQRCode} />}
+
         <ScrollView>
         <MobileMap gpsLocation={gpsLocation} DeviceName={deviceName} />
 
         <View style={styles.QuickAccess}>
-          <TouchableOpacity style={styles.QuickAccessButton}>
+          <TouchableOpacity style={styles.QuickAccessButton} onPress={() => setShowQRCode(!ShowQRCode)}>
             <IconSymbol name="qrcode" size={40} color="#FF5733" />
             <ThemedText style={styles.QuickAccessText}>QR Code</ThemedText>
           </TouchableOpacity>
@@ -106,6 +111,118 @@ function GetStatusIndicator(status: string) {
   }
 }
 
+function GenerateQRCode({value = "default", getRef}: {value: string, getRef?: (ref: any) => void}){
+
+  return (
+    <QRCode
+    value={value}
+    size={300}
+    backgroundColor="white"
+    color="black"
+    getRef={getRef}
+    />
+  );
+}
+
+function QRCodePopUp(props){
+
+  let qrRef: any = null;
+
+  const handleShare = async () => {
+    try {
+      // Get base64 image data from QR code
+      qrRef?.toDataURL(async (dataURL: string) => {
+        try {
+          await Share.share({
+            message: `Device ID: ${props.id}`,
+            title: 'Device QR Code',
+            url: `data:image/png;base64,${dataURL}`
+          });
+        } catch (error) {
+          console.error('Error sharing:', error);
+        }
+      });
+    } catch (error) {
+      console.error('Error generating QR:', error);
+    }
+  };
+
+  return (
+    <View style={PopUp.GreyBackground}>
+    <View style={PopUp.container}>
+      <Text style={PopUp.title}>QR Code</Text>
+      <View style={PopUp.QRCodeContainer}>
+        <GenerateQRCode value={props.id} getRef={(ref) => (qrRef = ref)} />
+      </View>
+      <View style={PopUp.BottomBar}>
+        <TouchableOpacity style={PopUp.ExportButton} onPress={handleShare}>
+          <IconSymbol name="arrow.up.doc" size={30} color="#FF5733" />
+          <Text style={PopUp.ExportButtonText}>Export</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={PopUp.ExportButton} onPress={() => props.setShowQRCode(false)}>
+          <IconSymbol name="xmark" size={30} color="#FF5733" />
+          <Text style={PopUp.ExportButtonText}>Close</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+    </View>
+  )
+}
+
+const PopUp = StyleSheet.create({
+  GreyBackground: {
+    backgroundColor: '#00000050',
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    zIndex: 10,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    position: 'absolute',
+    width: Dimensions.get('window').width * 0.9,
+    
+    top: Dimensions.get('window').height * 0.25,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#0D2A38',
+    alignSelf: 'center',
+    
+    zIndex: 15,
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  QRCodeImage: {
+    marginTop: 10,
+    width: 300,
+    height: 300,
+  },
+  BottomBar: {
+    flexDirection: 'row',
+    width: '100%',
+    padding: 10,
+    gap: 10,
+  },
+  ExportButton: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#0D2A38',
+    borderRadius: 10,
+    padding: 10,
+  },
+  ExportButtonText: {
+    fontSize: 20,
+    color: '#000000',
+  },
+})
 
 const styles = StyleSheet.create({
     container: {
