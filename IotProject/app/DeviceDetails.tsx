@@ -7,7 +7,6 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { DropDownComp } from '@/components/DropDownComp'; 
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
-
  
 function DeviceDetails({ route } : { route: any }) {
     const navigation = useNavigation();
@@ -33,7 +32,7 @@ function DeviceDetails({ route } : { route: any }) {
 
           
         <ScrollView>
-        <MobileMap gpsLocation={gpsLocation} />
+        <MobileMap gpsLocation={gpsLocation} DeviceName={deviceName} />
 
         <View style={styles.QuickAccess}>
           <TouchableOpacity style={styles.QuickAccessButton}>
@@ -52,19 +51,21 @@ function DeviceDetails({ route } : { route: any }) {
 
         <View style={styles.Containerdevice}>
           <Text style={styles.ContainerTitle}>Device Info</Text>
-
+          <View style={styles.ContainerContent}>
           <View style={styles.ContainerContentImage}>
             <Image source={{ uri: imageUrl }} style={styles.ContainerdeviceImage} />
             <View style={styles.ContainerdeviceImageTextContainer}>
             <Text style={styles.ContainerdeviceImageText}>{deviceName}</Text>
             <View style={styles.statusContainer}>
-              <View style={[styles.statusIndicator, { backgroundColor: '#2ECC71' }]} />
+              {GetStatusIndicator("Online")}
               <Text style={styles.ContainerdeviceImageText}>Online</Text>
             </View>
             </View>
           </View>
-
-          <View style={styles.ContainerContent}>
+          </View>
+        </View>
+        <View style={styles.Containerdevice}>
+          <View style={[styles.ContainerContent  , {padding: 10}]}>
             <Text style={styles.deviceInfo}>Device Model: <Text style={styles.deviceInfoText}>{deviceModel}</Text></Text>
             <Text style={styles.deviceInfo}>GPS LOCATION: <Text style={styles.deviceInfoText}>{gpsLocation}</Text></Text>
             <Text style={styles.deviceInfo}>Install Date: <Text style={styles.deviceInfoText}>{installDate}</Text></Text>
@@ -85,7 +86,7 @@ function DeviceDetails({ route } : { route: any }) {
         </View>
         </View>
         
-        <View style={{paddingBottom: 200}}></View> 
+        <View style={{paddingBottom: '80%'}}></View> 
         </ScrollView>
       </View>
     )
@@ -93,6 +94,17 @@ function DeviceDetails({ route } : { route: any }) {
 
 export default DeviceDetails;
 
+function GetStatusIndicator(status: string) {
+  if (status === 'Online') {
+    return <View style={[styles.statusIndicator, { backgroundColor: '#2ECC71' }]} />;
+  } else if (status === 'Offline') {
+    return <View style={[styles.statusIndicator, { backgroundColor: '#FF5733' }]} />;
+  } else if (status === 'Maintenance') {
+    return <View style={[styles.statusIndicator, { backgroundColor: '#FF5450' }]} />;
+  } else {
+    return <View style={[styles.statusIndicator, { backgroundColor: 'gray' }]} />;
+  }
+}
 
 
 const styles = StyleSheet.create({
@@ -141,9 +153,15 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 10,
+      backgroundColor: '#FFFFFF',
       width: '30%',
       height: 80,
       padding: 3,
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
     },
 
     QuickAccessText: {
@@ -154,6 +172,7 @@ const styles = StyleSheet.create({
 
     Containerdevice: {
       padding: 20,
+      paddingBottom: 5,
       
     },
 
@@ -164,11 +183,9 @@ const styles = StyleSheet.create({
     },
 
     ContainerContentImage: {
-      alignItems: 'center',
-      borderWidth: 1,
-      borderColor: '#0D2A38',
       borderRadius: 10,
       overflow: 'hidden',
+      
     },
 
     ContainerdeviceImageText: {
@@ -213,9 +230,14 @@ const styles = StyleSheet.create({
     ContainerContent: {
       borderWidth: 1,
       borderColor: '#0D2A38',
-      marginTop: 10,
       borderRadius: 10,
-      padding: 10,
+      
+      backgroundColor: '#FFFFFF',
+      shadowColor: '#000000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
     },
 
     statusContainer: {
