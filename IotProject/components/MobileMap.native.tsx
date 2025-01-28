@@ -3,7 +3,7 @@ import { StyleSheet , View , Text, TouchableOpacity} from 'react-native';
 import { useState } from 'react';
 
 export function MobileMap(props : any) {
-  const [Refresh, setRefresh] = useState(false);
+  const [Refresh, setRefresh] = useState(true);
 
 
   function RefreshMap() {
