@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity ,TouchableWithoutFeedback , Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
@@ -48,7 +49,7 @@ const MainPage = ({navigation}) => {
   
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
     {/* Header */}
     <ThemedText style={styles.header}>Your Devices</ThemedText>
 
@@ -80,7 +81,7 @@ const MainPage = ({navigation}) => {
       <CreateDeviceCardListFromJson navigation={navigation} styletype={deviceList} searchQuery={searchQuery} />
     </ScrollView>
 
-    </View>
+    </ThemedView>
     </TouchableWithoutFeedback>
   )
 }
@@ -102,9 +103,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 33,
     margin: 12,
-    height: 40,
+    height: 50,
     paddingHorizontal: 10,
     borderColor: '#0D2A38',
     borderWidth: 3,

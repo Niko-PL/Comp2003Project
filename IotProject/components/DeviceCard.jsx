@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         }
       }
       return {
-        fontSize: 14,
+        fontSize: 16,
         color: 'red',
       }
     },
