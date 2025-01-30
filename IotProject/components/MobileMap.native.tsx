@@ -15,6 +15,7 @@ export function MobileMap(props : any) {
 
 
     return (
+      
       <View style={styles.MapContainer}>
         {Refresh && <MapView style={styles.MapDisplay} initialRegion={{
             latitude: Number((props.gpsLocation).split(',')[0]),

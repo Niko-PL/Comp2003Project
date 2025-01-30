@@ -3,7 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from "rea
 
 
 export function DeviceCardElement ({
-    deviceid = "Unknown ID",
+    id = "Unknown ID",
     deviceName = "Unknown Device",
     lastMaintenance = "N/A",
     gpsLocation = "N/A",
@@ -17,7 +17,7 @@ export function DeviceCardElement ({
 }){
   return (
     <TouchableOpacity style={styles.deviceCard(styletype)} onPress={() => navigation.navigate('DeviceDetails', {
-      deviceid: deviceid,
+      deviceid: id,
       deviceName: deviceName,
       lastMaintenance: lastMaintenance,
       gpsLocation: gpsLocation,
