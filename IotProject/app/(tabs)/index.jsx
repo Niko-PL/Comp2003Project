@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity ,TouchableWithoutFeedback , Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 //import { DeviceCardElement } from '@/components/DeviceCard';
@@ -47,7 +48,8 @@ const MainPage = ({navigation}) => {
   }, []);
   
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <ThemedView style={styles.container}>
     {/* Header */}
     <ThemedText style={styles.header}>Your Devices</ThemedText>
 
@@ -55,6 +57,9 @@ const MainPage = ({navigation}) => {
     <View style={styles.searchContainer}>
       <Icon name="search" type="font-awesome" size={25} color="#FF5733" style={styles.searchIcon} />
       <TextInput placeholder="Search ... " placeholderTextColor="#0D2A3880" style={styles.searchInput} value={searchQuery} onChangeText={setSearchQuery}/>
+      <TouchableOpacity onPress={() => setSearchQuery('')}>
+        <Icon name="close" type="font-awesome" size={15} color="#FF5733" style={styles.searchIcon} />
+      </TouchableOpacity>
     </View>
 
     {/* Filter and Grid Buttons */}
@@ -76,7 +81,8 @@ const MainPage = ({navigation}) => {
       <CreateDeviceCardListFromJson navigation={navigation} styletype={deviceList} searchQuery={searchQuery} />
     </ScrollView>
 
-    </View>
+    </ThemedView>
+    </TouchableWithoutFeedback>
   )
 }
 /* horizontal={deviceList == 'List' ? false : true} */
@@ -97,9 +103,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    borderRadius: 20,
+    borderRadius: 33,
     margin: 12,
-    height: 40,
+    height: 50,
     paddingHorizontal: 10,
     borderColor: '#0D2A38',
     borderWidth: 3,

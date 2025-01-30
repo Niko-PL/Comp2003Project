@@ -3,11 +3,12 @@ import React, { useState , useRef } from "react";
 import { Button, Input } from "react-native-elements";
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
-
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
 
 export default function AddNewDevice() {
     const scrollViewRef = useRef();
-
+    const [selectedImage, setSelectedImage] = useState(null);
 
     return (
         <View style={styles.container}>
@@ -16,21 +17,50 @@ export default function AddNewDevice() {
             <ScrollView 
                   ref={scrollViewRef}
                   onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                  style={styles.ScrollViewContainer}
             >
-              <Image source={require('@/assets/images/adaptive-icon.png')} style={styles.ImageContainer}/>
-              <TouchableOpacity style={styles.SubmitButton}>
-                    <Text style={styles.SubmitButtonText}>Upload File</Text>  
-              </TouchableOpacity>            
+              
+              <InputCard InputHeader="Device Name" InputPlaceholder="Device Name"/>
+              <View style={styles.InputBoxContainer}>
+              <Text style={styles.InputTextHeader}>Device Image</Text>
+              <Image source={selectedImage ? { uri: selectedImage  } : require('@/assets/images/adaptive-icon.png')} style={styles.ImageContainer}/>
+              <TouchableOpacity style={styles.SubmitButton} onPress={async () => {
+                try {
+                  // Launch image picker
+                  const result = await ImagePicker.launchImageLibraryAsync({
+                    mediaTypes: ["images"],
+                    allowsEditing: true,
+                    aspect: [4, 3],
+                    quality: 1,
+                  });
+
+                  if (!result.canceled) {
+                    // Set the selected image URI to state
+                    setSelectedImage(result.assets[0].uri);
+                  }
+                } catch (error) {
+                  console.error('Error picking image:', error);
+                }
+              }}>
+                <Text style={styles.SubmitButtonText}>Upload Image</Text>
+              </TouchableOpacity>
+              </View>
+
               <View style={styles.InputContainer}>
-                  <InputCard InputHeader="Device Name" InputPlaceholder="Device Name"/>
+                  
                   <InputCard InputHeader="Device Model" InputPlaceholder="Device Model"/>
                   <DateCard DateHeader="Install Date" DatePlaceholder="Install Date"/>
                   <DateCard DateHeader="Last Maintenance" DatePlaceholder="Last Maintenance"/>
-                  <InputCard InputHeader="Techincal Docs" InputPlaceholder="Techincal Docs"/>
+                  <InputCard DoesHaveInputInital={false} InputHeader="Techincal Docs" InputPlaceholder="Techincal Docs"/>
+                  <InputCard DoesHaveInputInital={false} DoesHaveInputText="Use current Gps Location for this device?" InputHeader="Gps Location" InputPlaceholder="Gps Location" YesOnPress={AccepptButtonForGPS}/>
                   <InputCard InputHeader="Additional Notes" InputPlaceholder="Notes" MaxLines={10} multiline={true}/>
+                  <TouchableOpacity style={styles.OtherButtons}>
+                    <Text style={styles.OtherButtonText}>Reset</Text>  
+                  </TouchableOpacity>
                   <TouchableOpacity style={styles.SubmitButton}>
                     <Text style={styles.SubmitButtonText}>Create Device</Text>  
                   </TouchableOpacity>
+
               </View>
              
             </ScrollView>
@@ -44,14 +74,77 @@ function InputCard({
     InputHeader = "Deafult Header",
     InputPlaceholder = "Default Placeholder",
     MaxLines = 1,
-    multiline = false
+    multiline = false,
+    DoesHaveInputInital = true,
+    DoesHaveInputText =  "",
+    deafulInputValue = "",
+    YesOnPress = () => {},
+    NoOnPress = () => {}
 }) {
+
+  const [DoesHaveInput, setDoesHaveInput] = useState(DoesHaveInputInital);
+  const [InputValue, setInputValue] = useState(deafulInputValue);
+  const [isNoPressed, setIsNoPressed] = useState(false);  // Added this line
+
+  if (DoesHaveInputText == ''){
+    DoesHaveInputText = "Are " + InputPlaceholder + " Available for this device?"
+  }
     return (
+        
         <View style={styles.InputBoxContainer}>
-            <Text style={styles.InputTextHeader}>Enter {InputHeader}</Text>
-            <TextInput multiline={multiline} style={styles.InputBox} allowFontScaling numberOfLines={MaxLines} placeholderTextColor={"#00000040"} placeholder={InputPlaceholder} />
+            <Text style={styles.InputTextHeader}>{InputHeader}</Text>
+            {DoesHaveInput ? 
+            <TextInput multiline={multiline} style={styles.InputBox} allowFontScaling numberOfLines={MaxLines} placeholderTextColor={"#00000040"} placeholder={InputPlaceholder} value={InputValue} />
+            :
+            <View style={styles.DoesHaveInput}>
+              
+              <View style={styles.DoesHaveInputButtons}>
+              <TouchableOpacity style={styles.DoesHaveInputButton}  onPress={() => {
+                setDoesHaveInput(true) ; 
+                setIsNoPressed(false);
+                if (deafulInputValue != ''){
+                  setInputValue(deafulInputValue);
+                }
+                YesOnPress(setInputValue);
+                }}>
+                <Text>Yes</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.DoesHaveInputButton, {backgroundColor: !isNoPressed ? '#00000020' : '#FF5733'}]}  onPress={() => {setDoesHaveInput(false)
+                setIsNoPressed(true);
+                NoOnPress();
+              }}>
+                <Text>No</Text>
+              </TouchableOpacity>
+              </View>
+
+              <Text style={[styles.InputTextHeader, {fontSize: 14}]}>{DoesHaveInputText}</Text>
+            </View>
+            }
         </View>
     )
+}
+
+async function AccepptButtonForGPS(setInputValue: (value: string) => void){
+  try {
+    // Request permission to access location
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+        alert('Permission to access location was denied');
+        return;
+    }
+
+    // Get current location
+    let location = await Location.getCurrentPositionAsync({});
+    const latitude = location.coords.latitude.toString().slice(0, 10);
+    const lonitude = location.coords.longitude.toString().slice(0, 10);
+    const coords = `${latitude}, ${lonitude}`;
+    setInputValue(coords);
+  } catch (error) {
+      console.error('Error getting location:', error);
+      alert('Failed to get location');
+  }
+  
+  
 }
 
 function DateCard({
@@ -65,8 +158,8 @@ function DateCard({
     return (
         <View>
         <View style={styles.InputBoxContainer} needsOffscreenAlphaCompositing >
-            <Text style={styles.InputTextHeader}>Enter {DateHeader}</Text>
-            <Button buttonStyle={styles.InputButtonBox} titleStyle={styles.InputBox} title={ButtonText} onPress={() => setCalenderVisible(!seeCalender)}/>
+            <Text style={styles.InputTextHeader}>{DateHeader}</Text>
+            <Button buttonStyle={styles.CalInputBoxContainer} titleStyle={styles.CalInputBox} title={ButtonText} onPress={() => setCalenderVisible(!seeCalender)}/>
         </View>
         
         {seeCalender && 
@@ -105,12 +198,17 @@ const styles = StyleSheet.create({
         marginTop: 60,
       },
 
+      ScrollViewContainer: {
+        flex: 1,
+        padding: 0
+      },
+
       ImageContainer: {
         alignSelf: 'center',
         borderWidth: 3,
-        borderColor: '#000000',
-        width: 200,
-        height: 200,
+        borderColor: '#000000', 
+        width: '100%',
+        height: 400,
 
         marginTop: 10,
       },
@@ -119,7 +217,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
         borderRadius: 20,
-        margin: 10,
+        
         paddingBottom: 200,
      
  
@@ -130,25 +228,31 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
 
-        margin: 12,
+        margin: 10,
+        
         minHeight: 70,
         paddingHorizontal: 10,
-        borderBottomColor: '#000000',
-        borderBottomWidth: 3,
+    
         
       },
 
       InputTextHeader: {
         marginRight: 5,
         fontSize: 16,
+        
       },
 
       InputBox: {   
+        
         textAlign: 'left',
         color: '#000000',
         flex: 1,
         fontSize: 24,
+        borderColor: '#00000050',
         
+        borderWidth: 1.5,
+        borderRadius: 10,
+        padding: 10
       },
 
       CalendarContainer: {
@@ -165,22 +269,99 @@ const styles = StyleSheet.create({
 
       InputButtonBox: {
         backgroundColor: 'rgba(0,0,0,0)',
+        textAlign: 'left',
+        flex: 1,
+        padding: 10,
+       
+      },
+
+      CalInputBoxContainer: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        width: '100%',
+        flex: 1,
+        textAlign: 'left',
+        padding: 10,
+        color: '#000000',
+        borderColor: '#00000050',
+        borderWidth: 1.5,
+        borderRadius: 10,
+        fontSize: 24,
+        alignSelf: 'flex-start',
+      },
+
+      CalInputBox: {
+        
+        textAlign: 'left',
+        flex: 1,
+        padding: 10,
+        color: '#000000',
+        fontSize: 24,
       },
 
       SubmitButton: {
+
         alignSelf: 'center',
         backgroundColor: '#FF5733',
-        paddingLeft: 40,
-        paddingRight: 40,
-        borderRadius: 20,
+        width: '90%',
+        borderRadius: 10,
         padding: 10,
         margin: 10,
         alignItems: 'center',
       },
 
+      OtherButtons: {
+        alignSelf: 'center',
+        borderWidth: 1.5,
+        borderColor: '#0000000',
+        width: '90%',
+        borderRadius: 10,
+        padding: 10,
+        margin: 10,
+        alignItems: 'center',
+      },
+
+      OtherButtonText: {
+        color: '#000000',
+        fontSize: 24,
+      },
+
       SubmitButtonText: {
         color: '#FFFFFF',
-      }
+        fontSize: 24,
+      },
+
+      DoesHaveInputButtons: {
+        flex: 1,
+        flexDirection: 'row',
+        width: '100%',
+        gap: 5,
+        borderRadius: 10,
+        padding: 1,
+
+        
+      },
+
+      DoesHaveInputButton: {
+        flex: 1,  
+        backgroundColor: '#00000020',
+        borderRadius: 10,
+
+        padding: 15,
+        alignItems: 'center',
+      
+
+      },
+
+      DoesHaveInput: {
+        
+        flexDirection: 'column',
+        width: '100%',
+        backgroundColor: '#FFFFFF',
+
+
+        padding: 5,
+      },
+
 
       
 }

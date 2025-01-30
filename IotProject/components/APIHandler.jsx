@@ -11,7 +11,7 @@ var SampleJson = {
             "longitude" : "-4.13800"
         },
         "warning": null,
-        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
+        "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
@@ -25,7 +25,7 @@ var SampleJson = {
             "longitude" : "-4.13800"
         },
         "warning": "Needs Maintenance",
-        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
+        "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
@@ -39,7 +39,7 @@ var SampleJson = {
             "longitude" : "-4.13800"
         },
         "warning": "Needs Maintenance",
-        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
+        "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
@@ -52,7 +52,7 @@ var SampleJson = {
             "latitude" : "51.4492", 
             "longitude" : "-2.58031"
         },
-        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
+        "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
@@ -65,7 +65,7 @@ var SampleJson = {
             "latitude" : "50.58103", 
             "longitude" : "-4.13800"
         },
-        "imageUrl": "https://dummyimage.com/50.png/09f/fff",
+        "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
         "technicalDocs": "https://www.google.com"
