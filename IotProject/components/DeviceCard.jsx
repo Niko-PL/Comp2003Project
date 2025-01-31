@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 
 
 export function DeviceCardElement ({
-    deviceid = "Unknown ID",
+    id = "Unknown ID",
     deviceName = "Unknown Device",
     lastMaintenance = "N/A",
     gpsLocation = "N/A",
@@ -17,7 +17,7 @@ export function DeviceCardElement ({
 }){
   return (
     <TouchableOpacity style={styles.deviceCard(styletype)} onPress={() => navigation.navigate('DeviceDetails', {
-      deviceid: deviceid,
+      deviceid: id,
       deviceName: deviceName,
       lastMaintenance: lastMaintenance,
       gpsLocation: gpsLocation,
@@ -29,9 +29,9 @@ export function DeviceCardElement ({
     })}>
     <Image source={{ uri: imageUrl }} style={styles.deviceImage(styletype)} />
         <View style={styles.deviceDetails}>
-        <Text style={styles.deviceName(styletype)}>{deviceName}</Text>
-        <Text style={styles.deviceInfo(styletype)}>Last Maintenance: {lastMaintenance} days ago</Text>
-        <Text style={styles.deviceInfo(styletype)}>GPS LOCATION: {gpsLocation}</Text>
+        <Text style={styles.deviceName(styletype)}> {deviceName}</Text>
+        <Text style={styles.deviceInfo(styletype)}>Last Maintenance: <Text style={{color: '#FF5733'}}>{lastMaintenance} days ago </Text> </Text>
+        <Text style={styles.deviceInfo(styletype)}>GPS LOCATION: <Text style={{color: '#FF5733'}}>{gpsLocation}</Text></Text>
         <GetWarning haswarning={warning} styletype={styletype}/>
         </View>
     </TouchableOpacity>
@@ -49,6 +49,7 @@ const GetWarning = props => {
 const styles = StyleSheet.create({
     deviceList: {
       flex: 1,
+       
       marginHorizontal: 10,
     },
 
@@ -60,15 +61,16 @@ const styles = StyleSheet.create({
           backgroundColor: '#FFFFFF',
           top: 10,
           borderRadius: 8,
+          left: 2,
           padding: 10,
           width: '98%',
           alignSelf: 'center',
           marginBottom: 10,
           elevation: 2,
           shadowColor: '#000000',
-          shadowOffset: { width: 0, height:4 },
+          shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.5,
-          shadowRadius: 10,
+          shadowRadius: 4,
         }
       }
       else if (styletype === 'Grid') {
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
           shadowOffset: { width: 0, height:1 },
           shadowOpacity: 0.5,
           shadowRadius: 4,
+          
         }
       }
       
@@ -118,7 +121,7 @@ const styles = StyleSheet.create({
       }
 
       return {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
       }
     },
@@ -137,12 +140,12 @@ const styles = StyleSheet.create({
       if (styletype === 'Grid') {
         return {
           fontSize: 8,
-          color: '#FF5733',
+          color: 'red',
         }
       }
       return {
-        fontSize: 14,
-        color: '#FF5733',
+        fontSize: 16,
+        color: 'red',
       }
     },
 });
