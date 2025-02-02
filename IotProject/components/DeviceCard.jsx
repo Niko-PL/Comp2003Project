@@ -13,6 +13,7 @@ export function DeviceCardElement ({
     installDate = "11/11/2024",
     DeviceNotes = "N/A",
     deviceModel = "Unknown Model",
+    technicalDocs = null,
     styletype = "list"
 }){
   return (
@@ -25,7 +26,9 @@ export function DeviceCardElement ({
       imageUrl: imageUrl,
       installDate   : installDate,
       DeviceNotes   : DeviceNotes,
-      deviceModel   : deviceModel
+      deviceModel   : deviceModel,
+      technicalDocs : technicalDocs
+
     })}>
     <Image source={{ uri: imageUrl }} style={styles.deviceImage(styletype)} />
         <View style={styles.deviceDetails}>
