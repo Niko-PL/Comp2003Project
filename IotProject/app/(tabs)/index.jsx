@@ -1,6 +1,8 @@
+//import React from 'react';
+import React, { useEffect, useState } from 'react';
+
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import React from 'react';
 import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity ,TouchableWithoutFeedback , Keyboard } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -11,6 +13,9 @@ import { CreateDeviceCardListFromJson } from '@/components/CreateDeviceCardListF
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DeviceDetails from '../DeviceDetails';
+
+import { autoLoginUser, listenForAuthChanges } from "@/components/firebase"; // Import Auto Login Function
+
 
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +43,22 @@ const MainPage = ({navigation}) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const [deviceList, setDeviceList] = React.useState('List');
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [user, setUser] = useState(null);  
+
+
+  //login (CURRENTLY HARDCODED IN BOTH DEFINITION AND HERE)
+  useEffect(() => {
+    const login = async () => {
+      const loggedInUser = await autoLoginUser();
+      if (loggedInUser) {
+        setUser(loggedInUser);
+      }
+    };
+
+    const unsubscribe = listenForAuthChanges(setUser);
+    login(); 
+    return () => unsubscribe(); 
+  }, []);
 
   {/* Refresh Control to change when API is introduced*/}
   const onRefresh = React.useCallback(() => {
@@ -55,21 +76,21 @@ const MainPage = ({navigation}) => {
 
     {/* Search Bar */}
     <View style={styles.searchContainer}>
-      <Icon name="search" type="font-awesome" size={25} color="#FF5733" style={styles.searchIcon} />
+      <Icon name="search" type="font-awesome" size={25} color="#FF5733" style={styles.searchIcon} ref={null} />
       <TextInput placeholder="Search ... " placeholderTextColor="#0D2A3880" style={styles.searchInput} value={searchQuery} onChangeText={setSearchQuery}/>
       <TouchableOpacity onPress={() => setSearchQuery('')}>
-        <Icon name="close" type="font-awesome" size={15} color="#FF5733" style={styles.searchIcon} />
+        <Icon name="close" type="font-awesome" size={15} color="#FF5733" style={styles.searchIcon} ref={null} />
       </TouchableOpacity>
     </View>
 
     {/* Filter and Grid Buttons */}
     <View style={styles.filterGridContainer}>
       <TouchableOpacity style={styles.PropertyButton}>
-        <Icon style={styles.IconCircle} name="filter" type="font-awesome" size={15} color='#FFFFFF' />
+        <Icon style={styles.IconCircle} name="filter" type="font-awesome" size={15} color='#FFFFFF' ref={null} />
         <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18  }}>Filter</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.PropertyButton} onPress={() => setDeviceList(deviceList == 'List' ? 'Grid' : 'List')}>
-        <Icon style={styles.IconCircle} name="th-large" type="font-awesome" size={15} color="#FFFFFF" />
+        <Icon style={styles.IconCircle} name="th-large" type="font-awesome" size={15} color="#FFFFFF" ref={null} />
         <Text style={{ color: '#000000', marginLeft: 5, fontSize: 18 }}>{deviceList}</Text>
       </TouchableOpacity>
     </View>
