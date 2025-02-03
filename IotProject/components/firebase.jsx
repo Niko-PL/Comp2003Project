@@ -1,30 +1,49 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  API_KEY,
+  AUTH_DOMAIN,
+  DATABASE_URL,
+  PROJECT_ID,
+  STORAGE_BUCKET,
+  MESSAGING_SENDER_ID,
+  APP_ID,
+  MEASUREMENT_ID,
+} from "@env"; // Ensure @env is correctly configured
 
-const isNative = Platform.OS === "ios" || Platform.OS === "android";
+const firebaseConfig = {
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  databaseURL: DATABASE_URL,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
+};
 
-const firebaseConfig = isNative
-  ? {
-    apiKey: "AIzaSyDHtE6FBvX1_dvwfgY9nXTO-kgWlOEIXv0",
-    authDomain: "farfield-iot-management-system.firebaseapp.com",
-    databaseURL: "https://farfield-iot-management-system-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "farfield-iot-management-system",
-    storageBucket: "farfield-iot-management-system.firebasestorage.app",
-    messagingSenderId: "1062325770420",
-    appId: "1:1062325770420:web:f2f49f63c3b738c60b9fe1",
-    measurementId: "G-2XJE2DN16Z"
-    }
-  : {
-      apiKey: process.env.REACT_APP_API_KEY,
-      authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-      projectId: process.env.REACT_APP_PROJECT_ID,
-      storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-      messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-      appId: process.env.REACT_APP_APP_ID,
-    };
-
-
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+
+// 🔹 Function to Log in a User
+export const autoLoginUser = async ()=> {//email, password) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, "joseph.troughton@gmail.com", "123456");//auth, email, password);
+    console.log("✅ User Logged In:", userCredential.user);
+    return userCredential.user;
+  } catch (error) {
+    console.error("❌ Login Error:", error.message);
+    return null;
+  }
+};
+
+// 🔹 Function to Listen for Authentication State (User Persistence)
+export const listenForAuthChanges = (callback) => {
+  return onAuthStateChanged(auth, (user) => {
+    callback(user);
+  });
+};
+
+export { auth };
 export default app;
