@@ -14,7 +14,7 @@ var SampleJson = {
         "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
-        "technicalDocs": "https://www.google.com"
+        "technicalDocs": null
     },
     "D1" : {
         "name" : "Test Device 2",
@@ -28,7 +28,16 @@ var SampleJson = {
         "imageUrl": "https://dummyimage.com/500.png/09f/fff",
         "installDate": "11/11/2024",
         "DeviceNotes": "N/A",
-        "technicalDocs": "https://www.google.com"
+        "technicalDocs": {
+            "0" : {
+                "Title": "Manual",
+                "Source": "https://www.google.com"
+            },
+            "1" : {
+                "Title": "Technical Specs",
+                "Source": "https://www.google.com"
+            }
+        }
     },
     "D2" : {
         "name" : "GPS Tracker",

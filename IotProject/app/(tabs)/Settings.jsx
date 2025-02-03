@@ -1,125 +1,118 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, ScrollView, RefreshControl , TouchableOpacity } from 'react-native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const SettingsStack = createNativeStackNavigator();
 
+function SettingsScreen() {
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Title Section */}
+      <Text style={styles.sectionTitle}>Settings</Text>
+
+      {/* Info Section */}
+      <View style={styles.infoContainer}>
+        <View style={styles.infoRow}>
+          <View style={styles.infoCollum}>
+            <Text style={styles.infoLabel}>Company ID:</Text>
+            <Text style={styles.infoValue}>XXXXXXXXX</Text>
+          </View>
+          <View style={styles.infoCollum}>
+            <Text style={styles.infoLabel}>User ID:</Text>
+            <Text style={styles.infoValue}>XXXXXXXXX</Text>
+          </View>
+        </View>
+      </View>
+
+      {/* Settings Buttons */}
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Account</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Preferences</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Contact Us</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Manage ORG</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button_red}>
+        <Text style={styles.buttonText}>Log Out</Text>
+      </TouchableOpacity>
+    </ScrollView>
+  );
+}
 
 export default function HomeScreen() {
-    return (
-  
-        <SettingsStack.Navigator screenOptions={{headerShown: false}}>
-          <SettingsStack.Screen 
-            name="MainPage" 
-            component={MainPage} 
-          />
-        </SettingsStack.Navigator>
-  
-    );
-  };
-
-const MainPage = ({navigation}) => {
-    
-    return (
-        <View style={styles.container}>
-            <Text style={styles.header}>Settings</Text>
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Account</Text>
-              <View style={styles.infocontainer}>
-                <Text style={styles.infotext}>logged in as: </Text>
-                <TouchableOpacity style={styles.logoutbutton}>
-                  <Text style={styles.logouttext}>Logout</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Notifications</Text> 
-              <View style={styles.infocontainer}>
-                <Text style={styles.infotext}>Push Notifications are currently: </Text>
-                <TouchableOpacity style={styles.logoutbutton}>
-                  <Text style={styles.logouttext}>ON</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Organization</Text>
-              <View style={styles.infocontainer}>
-                <Text style={styles.infotext}>Current Organization: </Text>
-                <TouchableOpacity style={styles.logoutbutton}>
-                  <Text style={styles.logouttext}>Change</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-            {/*
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Privacy</Text>
-            </View>
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>Help</Text>
-            </View>
-            <View style={styles.subcontainer}>
-              <Text style={styles.subheader}>About</Text>
-            </View>
-            */}
-        </View>
-    )
-
+  return (
+    <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
+      <SettingsStack.Screen name="MainPage" component={SettingsScreen} />
+    </SettingsStack.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#FFFFFF',
-      },
-
-      header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        color: '#000000',
-        marginTop: 60,
-      },
-
-      subheader: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        color: '#000000',
-        marginTop: 20,
-      },
-
-      subcontainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        
-        margin: 10,
-
-      },
-
-      infocontainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: 20,
-        borderWidth: 1,
-        borderColor: '#000000',
-        borderRadius: 5,
-        padding: 10,
-      },
-
-      infotext: {
-        fontSize: 16,
-        textAlign: 'left',
-        color: '#000000',
-      },
-
-      logoutbutton: {
-        backgroundColor: '#FF5733',
-        padding: 10,
-        borderRadius: 5,
-      },
-
-      logouttext: {
-        color: '#FFFFFF',
-      },
+  container: {
+    paddingTop: 38,
+    paddingRight: 48,
+    paddingBottom: 76,
+    paddingLeft: 48,
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    flexGrow: 1,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 30,
+    fontFamily: "'Inter', sans-serif",
+    color: '#000000',
+  },
+  infoContainer: {
+    marginBottom: 54,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+    gap: 100,
+  },
+  infoCollum: {
+    flexDirection: 'collum',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  infoLabel: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginRight: 10,
+  },
+  infoValue: {
+    fontSize: 16,
+    color: '#000000',
+  },
+  button: {
+    backgroundColor: '#fe5824',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    width: "100%",
+    marginBottom: 15,
+  },
+  button_red: {
+    backgroundColor: '#d10e0e',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop:30,
+    marginBottom: 15,
+    width: "100%",
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    textAlign: 'center',
+  },
 });

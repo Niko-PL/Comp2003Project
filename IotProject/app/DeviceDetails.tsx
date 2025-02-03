@@ -3,23 +3,37 @@ import { StyleSheet, View, Text, TextInput, ScrollView, Image, TouchableOpacity 
 import { ThemedText } from '@/components/ThemedText';
 import { useNavigation } from 'expo-router';
 
+
+import { ButtonUI } from '@/components/ui/Buttons';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { DropDownComp } from '@/components/DropDownComp'; 
 import { MobileMap } from '@/components/MobileMap'; //ignore this error it finds it .web for  website .native for ios and android
 
 import QRCode from 'react-native-qrcode-svg';
+import { SFSymbol } from 'expo-symbols';
 
 function DeviceDetails({ route } : { route: any }) {
     const navigation = useNavigation();
-    const { deviceName , deviceid  , deviceModel , warning , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
+    const { deviceName , deviceid  , deviceModel , technicalDocs , warning , lastMaintenance , gpsLocation, imageUrl , installDate , DeviceNotes} = route.params;
     const [ShowQRCode, setShowQRCode] = useState(false);
     const [EditMode, setIsEditMode] = useState(false);
 
-    const scrollViewRef = useRef<ScrollView>(null);
 
-    const handleScrollToPosition = (position: number) => {
+    const scrollViewRef = useRef<ScrollView>(null);
+    const deviceInfoRef = useRef<View>(null);
+
+    const handleScrollToPositionByNumber =  (position: number) => {
       scrollViewRef.current?.scrollTo({ y: position, animated: true });
+    };
+
+    {/* Scroll to a specific position by ref with a slight time out to allow ui to generate */}
+    const handleScrollToPositionByRef = async (position: React.RefObject<View>) => {
+      setTimeout(() => {
+      position.current?.measure((x, y) => {
+        scrollViewRef.current?.scrollTo({ y, animated: true });
+      });
+      }, .1);
     };
 
     const SaveAndAddToLogBook = ( 
@@ -31,7 +45,8 @@ function DeviceDetails({ route } : { route: any }) {
         {
       console.log("Saved :", deviceName , saveDeviceModel, saveGpsLocation, saveInstallDate, saveLastMaintenance, saveDeviceNotes , imageUrl);
       setIsEditMode(false);
-      handleScrollToPosition(1000);
+      handleScrollToPositionByNumber(1000);
+
     }
 
     {/* QUICK ACCESS BUTTONS  Doesn't allow rerendering */}
@@ -45,22 +60,22 @@ function DeviceDetails({ route } : { route: any }) {
         <QuickAccessButton 
           icon="book" 
           text="Log Book" 
-          onPress={() => handleScrollToPosition(1000)} 
+          onPress={() => handleScrollToPositionByNumber(1000)} 
         />
         <QuickAccessButton 
           icon="pencil" 
           text="Edit Info" 
-          onPress={() => {handleScrollToPosition(430); setIsEditMode(!EditMode)}} 
+          onPress={() => {handleScrollToPositionByRef(deviceInfoRef); setIsEditMode(!EditMode)}} 
         />
         <QuickAccessButton 
           icon="info" 
           text="Device Info" 
-          onPress={() => handleScrollToPosition(430)} 
+          onPress={() => handleScrollToPositionByRef(deviceInfoRef)} 
         />
       </View>
-    ), [handleScrollToPosition]); 
+    ), [handleScrollToPositionByNumber , handleScrollToPositionByRef,deviceInfoRef, EditMode]); 
 
-
+    
     return (
       <View style={styles.container}>    
                     
@@ -86,16 +101,21 @@ function DeviceDetails({ route } : { route: any }) {
         {/* QUICK ACCESS */}
         {QuickAccessButtons}
 
+
+
+        {/* TECHNICAL DOCUMENTS */}
+        <TechincalDocumentArea DocumentsJSON={technicalDocs} Editable={EditMode} />
+
         {/* DEVICE INFO */}
-        <View style={styles.Containerdevice}>
+        <View ref={deviceInfoRef} style={styles.Containerdevice}>
           <Text style={styles.ContainerTitle}>Device Info</Text>
           <DeviceInfoImageArea imageUrl={imageUrl} deviceName={deviceName} status="Online" IsEditable={EditMode} />
- 
         </View>
+
         {/* DEVICE INFO if on edit mode change the device info to the editable version */}
+        
         <DeviceInfo deviceModel={deviceModel} gpsLocation={gpsLocation} installDate={installDate} lastMaintenance={lastMaintenance} DeviceNotes={DeviceNotes} Editable={EditMode} SaveAndAddToLogBook={SaveAndAddToLogBook} setIsEditMode={setIsEditMode} />
         
-
         {/* LOG BOOK */}
         <LogBook />
         
@@ -133,6 +153,141 @@ function GenerateQRCode({value = "default", getRef}: {value: string, getRef?: (r
   );
 }
 
+function EditField({
+  field = "Unknown Field",
+  value = "",
+  handleUpdate,
+  handleUpdateFields = []
+}: {
+  field?: string;
+  value?: string;
+  handleUpdate: (field: string, value: string) => void;
+  handleUpdateFields?: string[];
+}) {
+  return (
+    <View style={edit.editField}>
+      <Text style={styles.deviceInfo}>{field}</Text>
+      <TextInput
+        style={edit.editInput}
+        value={value}
+        onChangeText={(text) => handleUpdate(handleUpdateFields[0], text)}
+      />
+    </View>
+  );
+}
+
+function TechincalDocumentArea({DocumentsJSON = [] , Editable = false}) {
+
+ 
+
+  if (DocumentsJSON == null) {
+    return (
+      <View style={styles.Containerdevice}>
+        <Text style={styles.ContainerTitle}>Technical Documents</Text>
+        <View style={styles.ContainerContent}>
+          {!Editable ?
+          <Text style={[styles.deviceInfo, {padding: 20, textAlign: 'center'}]}>NO Technical Documents Available for this device please add one.</Text>
+            : 
+            <View style={[styles.ContainerContent, {padding: 10 , paddingTop: 15}]}>
+              <AddNewTechDocs />
+            </View>
+            }
+        </View>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.Containerdevice}>
+      <Text style={styles.ContainerTitle}>Technical Documents</Text>
+      <View style={[styles.ContainerContent, {padding: 10 , paddingTop: 15}]}>
+        {DocumentsJSON instanceof Object && !Array.isArray(DocumentsJSON) ? 
+        <>
+        <GenerateTechincalDocuments DocumentsJSON={DocumentsJSON} Editable={Editable} />
+          </>
+        : <TechincalDocument DocumentURL={DocumentsJSON} Editable={Editable}  />}
+
+        {Editable && <AddNewTechDocs />}
+      </View>
+    </View>
+  )
+}
+
+function AddNewTechDocs(){
+  const [ShowDropCreateDown , setShowDropDown] = useState(false);
+
+  return (
+    <>
+    <ButtonUI icon='plus' text='Add Technical documentation' onPress={() => setShowDropDown(!ShowDropCreateDown)} type='secondary'  />
+    {ShowDropCreateDown &&
+    <View style={[styles.ContainerContent , {padding:10 , marginBottom: 10}]}>
+        <EditField field="Document Name:"   />
+        <EditField field="Document URL:"   />
+  
+      <ButtonUI type='Thin' icon='plus' text='Create' onPress={() => setShowDropDown(false)}/>
+
+
+    </View>
+    }
+    </>
+  )
+}
+
+function GenerateTechincalDocuments({DocumentsJSON = [] , Editable = false}) {
+  const ListOfDocuments: React.ReactElement[] = [];
+  console.log(DocumentsJSON);
+  Object.entries(DocumentsJSON).forEach(([_, document]) => {
+    ListOfDocuments.push(
+      <TechincalDocument key={document["Title"]} DocumentName={document["Title"]} DocumentURL={document["Source"]} Editable={Editable} />
+    )
+  });
+  return ListOfDocuments;
+}
+
+function TechincalDocument({DocumentName = "Unkown Document", DocumentURL = "Document URL" , Editable = false}) {
+  return (
+    <>
+      {!Editable ?
+      <ButtonUI icon='link' text={DocumentName} onPress={() => {}} type='primary'  />
+      :
+      <EditTechDocField DocumentName={DocumentName} DocumentURL={DocumentURL} />
+      }
+   </>
+  )
+}
+
+function EditTechDocField({DocumentName = "Unkown Document", DocumentURL = "Document URL" }) {
+  const [ShowDropDown , setShowDropDown] = useState(false);
+  const [EditDocumentName, setEditDocumentName] = useState(DocumentName);
+  const [EditDocumentURL, setEditDocumentURL] = useState(DocumentURL);
+
+  function handleUpdate(field: string, value: string) {
+    switch (field) {
+      case 'DocumentName': setEditDocumentName(value); break;
+      case 'DocumentURL': setEditDocumentURL(value); break;
+    }
+  }
+  
+  return (
+    <View style={{width: '100%', flexDirection : 'column'}}>
+    <ButtonUI icon="pencil" text={"Edit " + DocumentName} onPress={() => setShowDropDown(!ShowDropDown)} />
+    {ShowDropDown &&
+    <View style={[styles.ContainerContent , {padding:10 , marginBottom: 10}]}>
+        <EditField field="Document Name:" value={EditDocumentName} handleUpdate={handleUpdate} handleUpdateFields={['DocumentName']} />
+        <EditField field="Document URL:" value={EditDocumentURL} handleUpdate={handleUpdate} handleUpdateFields={['DocumentURL']} />
+        
+        <View style={styles.RowButtonContainer}>
+        <ButtonUI icon='trash' text='Delete Document' onPress={() => {setShowDropDown(false)}} type='destructive' extrastyles={{padding : 5}}  />
+        <ButtonUI icon='checkmark.circle' text='Save' onPress={() => {setShowDropDown(false)}} type='Thin'  />
+        </View>
+
+      </View>
+    }
+    </View>
+  )
+}
+
+
 
 function DeviceInfoImageArea(
   {imageUrl = '/images/adaptive-icon.png' , deviceName = "Unkown Device", status = "Offline", IsEditable = false}){
@@ -141,15 +296,9 @@ function DeviceInfoImageArea(
       <View style={styles.ContainerContentImage}>
         <Image source={{ uri: imageUrl }} style={styles.ContainerdeviceImage} />
         <View style={styles.ContainerdeviceImageTextContainer}>
-          {IsEditable ? 
-          <>
-          <TouchableOpacity style={edit.EditButton} onPress={() => {}}>
-            <IconSymbol name="pencil" size={30} color="#FF5733" />
-            <Text style={edit.EditButtonText}>Edit Image</Text>
-          </TouchableOpacity>
-          
-          </> : <>
-          </>}
+          {IsEditable && 
+          <ButtonUI icon= 'pencil' text='Edit Image' onPress={() => {}} type='Thin' />    
+          }
         <Text style={styles.ContainerdeviceImageText}>{deviceName}</Text>
         <View style={styles.statusContainer}>
           {GetStatusIndicator(status)}
@@ -160,6 +309,7 @@ function DeviceInfoImageArea(
     </View>
   )
 }
+
 
 
 function DeviceInfo(
@@ -199,14 +349,10 @@ function DeviceInfo(
     </View>
       :    <>     
       <DeviceInfoEditable deviceModel={EditdeviceModel} gpsLocation={EditgpsLocation} installDate={EditinstallDate} lastMaintenance={EditlastMaintenance} DeviceNotes={EditDeviceNotes} handleUpdate={handleUpdate} /> 
-      <TouchableOpacity style={edit.EditSaveButton} onPress={() => SaveAndAddToLogBook(EditdeviceModel, EditgpsLocation, EditinstallDate, EditlastMaintenance, EditDeviceNotes)} >
-        <IconSymbol name="pencil" size={30} color="#FF5733" /> 
-        <Text style={edit.EditButtonText}>Save and Add to Log Book</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={edit.EditSaveButton} onPress={() => {setIsEditMode(false)}} >
-        <IconSymbol name="xmark" size={30} color="#FF5733" /> 
-        <Text style={edit.EditButtonText}>Cancel</Text>
-      </TouchableOpacity>
+
+      <ButtonUI icon='trash' text='Delete' onPress={() => {setIsEditMode(false)}} type='destructive' extrastyles={{width : '90%' , alignSelf: 'center', padding: 5, margin: 5}} />
+      <ButtonUI icon='xmark' text='Cancel' onPress={() => {setIsEditMode(false)}} type='Thin' extrastyles={{width : '90%' , alignSelf: 'center', margin: 5}} />
+      <ButtonUI icon='pencil' text='Save and Add to Log Book' onPress={() => SaveAndAddToLogBook(EditdeviceModel, EditgpsLocation, EditinstallDate, EditlastMaintenance, EditDeviceNotes)} type='Thin' extrastyles={{width : '90%' , alignSelf: 'center', margin: 5}} />
       </> 
     
   )
@@ -232,42 +378,16 @@ function DeviceInfoEditable({
   return (
     <View style={styles.Containerdevice}>
       <View style={[styles.ContainerContent, { padding: 10 }]}>
-        <View style={edit.editField}>
-          <Text style={styles.deviceInfo}>Device Model:</Text>
-          <TextInput
-            style={edit.editInput}
-            value={deviceModel}
-            onChangeText={(text) => handleUpdate('deviceModel', text)}
-          />
-        </View>
-        
-        <View style={edit.editField}>
-          <Text style={styles.deviceInfo}>GPS LOCATION:</Text>
-          <TextInput
-            style={edit.editInput}
-            value={gpsLocation}
-            onChangeText={(text) => handleUpdate('gpsLocation', text)}
-          />
-        </View>
+        <EditField field="Device Model:" value={deviceModel} handleUpdate={handleUpdate} handleUpdateFields={['deviceModel']} />
+        {/* GPS LOCATION  Need to add option button just to use the deivce GPS location */}
+        <EditField field="GPS Location:" value={gpsLocation} handleUpdate={handleUpdate} handleUpdateFields={['gpsLocation']} />
+        {/* INSTALL DATE */}
+        <EditField field="Install Date:" value={installDate} handleUpdate={handleUpdate} handleUpdateFields={['installDate']} />
 
-        <View style={edit.editField}>
-          <Text style={styles.deviceInfo}>Install Date:</Text>
-          <TextInput
-            style={edit.editInput}
-            value={installDate}
-            onChangeText={(text) => handleUpdate('installDate', text)}
-          />
-        </View>
+        {/* LAST MAINTENANCE */}
+        <EditField field="Last Maintenance:" value={lastMaintenance} handleUpdate={handleUpdate} handleUpdateFields={['lastMaintenance']} />
 
-        <View style={edit.editField}>
-          <Text style={styles.deviceInfo}>Last Maintenance:</Text>
-          <TextInput
-            style={edit.editInput}
-            value={lastMaintenance}
-            onChangeText={(text) => handleUpdate('lastMaintenance', text)}
-          />
-        </View>
-
+        {/* NOTES */}
         <View style={edit.editField}>
           <Text style={styles.deviceInfo}>Notes:</Text>
           <TextInput
@@ -284,7 +404,7 @@ function DeviceInfoEditable({
 }
 
 const QuickAccessButton = memo(({ icon, text, onPress }: {
-  icon: string;
+  icon: SFSymbol;
   text: string;
   onPress: () => void;
 }) => (
@@ -342,11 +462,13 @@ function LogBook(){
   return (
     <View style={styles.Containerdevice}>
     <Text style={styles.ContainerTitle}>Log Book</Text>
+    <View style={styles.ContainerContent}>
     <View style={styles.logContainer}>
       <DropDownComp />
-      <TouchableOpacity style={styles.CreateLogButton}>
-        <IconSymbol name="plus" size={30} color="#FF5733" />
-      </TouchableOpacity>
+      <ButtonUI icon='plus' text='Add Log' type='secondary' extrastyles={{height: 50}} />
+      
+
+    </View>
     </View>
     </View>
   )
@@ -399,6 +521,10 @@ const edit = StyleSheet.create({
     marginBottom: 10,
     gap: 5,
   },
+
+  EditButtonSmall: {
+
+  }
 });
 
 const PopUp = StyleSheet.create({
@@ -610,10 +736,11 @@ const styles = StyleSheet.create({
     },
 
     logContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginTop: 10,
+      
+     flexDirection: 'row',
+     alignItems: 'center',
+     padding: 2,
+     marginTop: 5,
     },
 
     CreateLogButton: {
@@ -644,6 +771,27 @@ const styles = StyleSheet.create({
       padding: 10,
       zIndex: 1000,
     },
+
+    ContainerButtons: {
+      display: 'flex',
+      width: '100%',
+      alignSelf: 'center',
+      borderRadius: 10,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#0D2A38',
+      gap: 10,
+      padding: 10,
+      marginBottom: 10,
+    },
+
+    RowButtonContainer: {
+      flexDirection: 'row',      
+      gap: 10,
+      
+    }
+
 
 
 });

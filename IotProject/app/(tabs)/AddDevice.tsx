@@ -3,11 +3,14 @@ import React, { useState , useRef } from "react";
 import { Button, Input } from "react-native-elements";
 import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
+
+import { ButtonUI } from "@/components/ui/Buttons";
+
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
 export default function AddNewDevice() {
-    const scrollViewRef = useRef();
+    const scrollViewRef = useRef<ScrollView>(null);
     const [selectedImage, setSelectedImage] = useState(null);
 
     return (
@@ -19,7 +22,7 @@ export default function AddNewDevice() {
                   onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
                   style={styles.ScrollViewContainer}
             >
-              
+              <View style={styles.InputContainer}>
               <InputCard InputHeader="Device Name" InputPlaceholder="Device Name"/>
               <View style={styles.InputBoxContainer}>
               <Text style={styles.InputTextHeader}>Device Image</Text>
@@ -46,20 +49,18 @@ export default function AddNewDevice() {
               </TouchableOpacity>
               </View>
 
-              <View style={styles.InputContainer}>
-                  
+          
                   <InputCard InputHeader="Device Model" InputPlaceholder="Device Model"/>
                   <DateCard DateHeader="Install Date" DatePlaceholder="Install Date"/>
                   <DateCard DateHeader="Last Maintenance" DatePlaceholder="Last Maintenance"/>
                   <InputCard DoesHaveInputInital={false} InputHeader="Techincal Docs" InputPlaceholder="Techincal Docs"/>
                   <InputCard DoesHaveInputInital={false} DoesHaveInputText="Use current Gps Location for this device?" InputHeader="Gps Location" InputPlaceholder="Gps Location" YesOnPress={AccepptButtonForGPS}/>
                   <InputCard InputHeader="Additional Notes" InputPlaceholder="Notes" MaxLines={10} multiline={true}/>
-                  <TouchableOpacity style={styles.OtherButtons}>
-                    <Text style={styles.OtherButtonText}>Reset</Text>  
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.SubmitButton}>
-                    <Text style={styles.SubmitButtonText}>Create Device</Text>  
-                  </TouchableOpacity>
+
+
+                  <ButtonUI text="Reset" type='secondary' icon="gobackward" extrastyles={{marginTop: 15}}  Textstyles={{fontSize: 24}} onPress={() => {}} />
+                  <ButtonUI text="Create Device" type='alternate' icon="plus" Textstyles={{fontSize: 24}} onPress={() => {}} />
+
 
               </View>
              
@@ -113,7 +114,7 @@ function InputCard({
                 setIsNoPressed(true);
                 NoOnPress();
               }}>
-                <Text>No</Text>
+                <Text style={{color: !isNoPressed ? '#000' : '#FFF'}}>No</Text>
               </TouchableOpacity>
               </View>
 
@@ -208,7 +209,7 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#000000', 
         width: '100%',
-        height: 400,
+        height: 350,
 
         marginTop: 10,
       },
@@ -219,6 +220,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         
         paddingBottom: 200,
+        padding: 20,
      
  
         elevation: 2,
@@ -228,10 +230,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         backgroundColor: '#FFFFFF',
 
-        margin: 10,
+        marginBottom: 10,
         
         minHeight: 70,
-        paddingHorizontal: 10,
+        
     
         
       },
