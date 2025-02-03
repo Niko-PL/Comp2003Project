@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';  // Import useNavigation
-import { ButtonUI } from "@/components/ui/Buttons";
+
+
 
 export const AccountField = ({ label, value }) => (
   <View style={styles.fieldContainer}>

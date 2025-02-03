@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';  // Import useNavigation
+import {Account} from '@/Account'; // Make sure the path is correct
 import { ButtonUI } from "@/components/ui/Buttons";
+
 
 const SettingsStack = createNativeStackNavigator();
 
 function SettingsScreen() {
-  const navigation = useNavigation();  // Use navigation hook
-
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Title Section */}
@@ -30,12 +30,17 @@ function SettingsScreen() {
 
       {/* Settings Buttons */}
       <View>
-        <ButtonUI text="Account" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => { navigation.navigate('Account'); }} />
+        <ButtonUI text="Account" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => { }} />
+
         <ButtonUI text="Preferences" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+
         <ButtonUI text="Contact Us" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+
         <ButtonUI text="Manage ORG" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        
         <ButtonUI text="Log Out" type='exit' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
       </View>
+
     </ScrollView>
   );
 }
@@ -90,4 +95,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000000',
   },
+
 });
