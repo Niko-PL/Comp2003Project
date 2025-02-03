@@ -10,7 +10,7 @@ export function ButtonUI({icon = 'questionmark.circle', text = 'Unknown', onPres
     text?: string;
     onPress?: () => void;
     size?: number;
-    type?: 'primary' | 'secondary' | 'destructive' | 'Thin' | 'alternate';
+    type?: 'primary' | 'secondary' | 'destructive' | 'Thin' | 'alternate' | 'exit';
     extrastyles?: {};
     Textstyles?: {};
 }){
@@ -51,6 +51,13 @@ export function ButtonUI({icon = 'questionmark.circle', text = 'Unknown', onPres
                     <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
                 </TouchableOpacity>
             );
+            case 'exit':
+                return (
+                    <TouchableOpacity style={[MainButtonStlyes.ButtonAlt, extrastyles]} onPress={onPress}>
+                        <IconSymbol name={icon} size={size} color="#c80101" />
+                        <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
+                    </TouchableOpacity>
+                );
         default:
             return (
                 <TouchableOpacity style={MainButtonStlyes.ButtonPri} onPress={onPress} >

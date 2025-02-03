@@ -1,10 +1,14 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';  // Import useNavigation
+import { ButtonUI } from "@/components/ui/Buttons";
 
 const SettingsStack = createNativeStackNavigator();
 
 function SettingsScreen() {
+  const navigation = useNavigation();  // Use navigation hook
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Title Section */}
@@ -25,21 +29,13 @@ function SettingsScreen() {
       </View>
 
       {/* Settings Buttons */}
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Account</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Preferences</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Contact Us</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Manage ORG</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button_red}>
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
+      <View>
+        <ButtonUI text="Account" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => { navigation.navigate('Account'); }} />
+        <ButtonUI text="Preferences" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Contact Us" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Manage ORG" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Log Out" type='exit' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+      </View>
     </ScrollView>
   );
 }
@@ -61,6 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFFFFF',
     flexGrow: 1,
+    height: "100%",
   },
   sectionTitle: {
     fontSize: 24,
@@ -92,27 +89,5 @@ const styles = StyleSheet.create({
   infoValue: {
     fontSize: 16,
     color: '#000000',
-  },
-  button: {
-    backgroundColor: '#fe5824',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    width: "100%",
-    marginBottom: 15,
-  },
-  button_red: {
-    backgroundColor: '#d10e0e',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginTop:30,
-    marginBottom: 15,
-    width: "100%",
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    textAlign: 'center',
   },
 });

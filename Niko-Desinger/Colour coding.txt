@@ -1,0 +1,6 @@
+fe5824  = orange
+0d2a38  = blue
+adc0c7  = grey
+
+
+c80101 = red
