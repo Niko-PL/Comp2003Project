@@ -35,6 +35,7 @@ export function CreateDeviceCardListFromJson(props){
                 navigation={props.navigation}
                 installDate={DeviceData.installDate}
                 DeviceNotes={DeviceData.DeviceNotes}
+                technicalDocs={DeviceData.technicalDocs}
             />
         )
     }
