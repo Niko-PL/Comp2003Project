@@ -58,8 +58,8 @@ export default function AddNewDevice() {
                   <InputCard InputHeader="Additional Notes" InputPlaceholder="Notes" MaxLines={10} multiline={true}/>
 
 
-                  <ButtonUI text="Reset" type='secondary' icon="gobackward" extrastyles={{marginTop: 15}}  Textstyles={{fontSize: 24}} onPress={() => {}} />
-                  <ButtonUI text="Create Device" type='alternate' icon="plus" Textstyles={{fontSize: 24}} onPress={() => {}} />
+                  <ButtonUI text="Reset" type='secondary' extrastyles={{marginTop: 15}}  Textstyles={{fontSize: 24}} onPress={() => {}} />
+                  <ButtonUI text="Create Device" type='alternate' Textstyles={{fontSize: 24}} onPress={() => {}} />
 
 
               </View>

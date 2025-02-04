@@ -1,16 +1,45 @@
 import { TouchableOpacity , Text , StyleSheet } from "react-native"
 import { IconSymbol } from "./IconSymbol"
 import { SFSymbol } from "expo-symbols";
+import { color } from "react-native-elements/dist/helpers";
 
 
 
 
-export function ButtonUI({icon = 'questionmark.circle', text = 'Unknown', onPress, size = 30, type, extrastyles = {}, Textstyles = {}}: {
-    icon?: SFSymbol;
+
+function Inner({ icon, iconcolor = '#FFF', text, textcolor = '#FFF', size, Textstyles }: {
+    icon: SFSymbol | null;
+    iconcolor?: string;
+    text: string;
+    textcolor?: string;
+    size: number;
+    Textstyles: {};
+}) {
+    return (
+    <>
+        {icon  ? <IconSymbol name={icon} size={size} color={iconcolor} /> : null}
+        <Text style={[edit.EditButtonText,{color: textcolor},Textstyles]}>{text}</Text>
+    </>
+    )
+}
+
+// ButtonUI component
+// This component is a button that can be customized with different styles and icons.
+// example usage: <ButtonUI />
+export function ButtonUI({
+    icon = null,
+    text = 'Unknown',
+    onPress,
+    size = 30,
+    type,
+    extrastyles = {},
+    Textstyles = {}
+}: {
+    icon?: SFSymbol | null;
     text?: string;
     onPress?: () => void;
     size?: number;
-    type?: 'primary' | 'secondary' | 'destructive' | 'Thin' | 'alternate' | 'exit';
+    type?: 'primary' | 'secondary' | 'destructive' | 'Thin' | 'alternate';
     extrastyles?: {};
     Textstyles?: {};
 }){
@@ -19,56 +48,45 @@ export function ButtonUI({icon = 'questionmark.circle', text = 'Unknown', onPres
         case 'primary':
             return (
                 <TouchableOpacity style={[MainButtonStlyes.ButtonPri, extrastyles]} onPress={onPress}>
-                    <IconSymbol name={icon} size={size} color="#FF5733" />
-                    <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
+                    <Inner icon={icon} iconcolor="FF5733" text={text} size={size} Textstyles={Textstyles} />
                 </TouchableOpacity>
             );
         case 'Thin':
             return (
                 <TouchableOpacity style={[MainButtonStlyes.ButtonThin, extrastyles]} onPress={onPress}>
-                    <IconSymbol name={icon} size={size} color="#FF5733" />
-                    <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
+                    <Inner icon={icon} iconcolor="#FF5733" text={text} size={size} Textstyles={Textstyles} />
                 </TouchableOpacity>
             );
         case 'secondary':
             return (
                 <TouchableOpacity style={[MainButtonStlyes.ButtonSec, extrastyles]} onPress={onPress}>
-                    <IconSymbol name={icon} size={size} color="#000" />
-                    <Text style={[edit.EditButtonText, Textstyles, { color: '#000' }]}>{text}</Text>
+                    <Inner icon={icon} iconcolor="#000" textcolor="#000" text={text} size={size} Textstyles={Textstyles} />
                 </TouchableOpacity>
             );
         case 'destructive':
             return (
                 <TouchableOpacity style={[MainButtonStlyes.ButtonDesc, extrastyles]} onPress={onPress}>
-                    <IconSymbol name={icon} size={size} color="#FFF" />
-                    <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
+                    <Inner icon={icon} text={text} size={size} Textstyles={Textstyles} />
                 </TouchableOpacity>
             );
         case 'alternate':
             return (
                 <TouchableOpacity style={[MainButtonStlyes.ButtonAlt, extrastyles]} onPress={onPress}>
-                    <IconSymbol name={icon} size={size} color="#FFF" />
-                    <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
+                    <Inner icon={icon} text={text} size={size} Textstyles={Textstyles} />
                 </TouchableOpacity>
             );
-            case 'exit':
-                return (
-                    <TouchableOpacity style={[MainButtonStlyes.ButtonAlt, extrastyles]} onPress={onPress}>
-                        <IconSymbol name={icon} size={size} color="#c80101" />
-                        <Text style={[edit.EditButtonText, Textstyles]}>{text}</Text>
-                    </TouchableOpacity>
-                );
         default:
             return (
                 <TouchableOpacity style={MainButtonStlyes.ButtonPri} onPress={onPress} >
-                    <IconSymbol name={icon} size={size} color="#FF5733" /> 
-                    <Text style={edit.EditButtonText}>{text}</Text>
+                    <Inner icon={icon} text={text} size={size} Textstyles={Textstyles} />
                 </TouchableOpacity>
             );
     }
 
 
 }
+
+
 
 const MainButtonStlyes = StyleSheet.create({
 

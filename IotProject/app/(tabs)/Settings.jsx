@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';  // Import useNavigation
-import {Account} from '@/Account'; // Make sure the path is correct
+import {Account} from '@/app/Account'; // Make sure the path is correct
 import { ButtonUI } from "@/components/ui/Buttons";
 
 

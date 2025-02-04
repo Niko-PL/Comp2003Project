@@ -156,12 +156,12 @@ function GenerateQRCode({value = "default", getRef}: {value: string, getRef?: (r
 function EditField({
   field = "Unknown Field",
   value = "",
-  handleUpdate,
+  handleUpdate = () => {},
   handleUpdateFields = []
 }: {
   field?: string;
   value?: string;
-  handleUpdate: (field: string, value: string) => void;
+  handleUpdate?: (field: string, value: string) => void;
   handleUpdateFields?: string[];
 }) {
   return (
@@ -224,7 +224,7 @@ function AddNewTechDocs(){
         <EditField field="Document Name:"   />
         <EditField field="Document URL:"   />
   
-      <ButtonUI type='Thin' icon='plus' text='Create' onPress={() => setShowDropDown(false)}/>
+      <ButtonUI text='Create' onPress={() => setShowDropDown(false)}/>
 
 
     </View>
@@ -414,7 +414,7 @@ const QuickAccessButton = memo(({ icon, text, onPress }: {
   </TouchableOpacity>
 ));
 
-function QRCodePopUp(props){
+function QRCodePopUp(props: any){
 
   let qrRef: any = null;
 
