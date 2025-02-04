@@ -11,3 +11,6 @@ Kill server
 netstat -ano | findstr :8081
 
 taskkill /PID <PID> /F
+
+
+http://localhost:8081/MainPage

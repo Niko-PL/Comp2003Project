@@ -3,6 +3,9 @@ import { StyleSheet, View, Text,TextInput, ScrollView } from 'react-native';
 import { ButtonUI } from "@/components/ui/Buttons";
 
 export function Account() {
+
+  //temp variables to be changed
+  
   let Account_Name = "Account_Name"
   let Company_ID = "Company_Id"
   let Legal_Name = "Legal_Name"

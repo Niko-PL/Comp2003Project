@@ -2,6 +2,7 @@ import { TouchableOpacity , Text , StyleSheet } from "react-native"
 import { IconSymbol } from "./IconSymbol"
 import { SFSymbol } from "expo-symbols";
 import { color } from "react-native-elements/dist/helpers";
+import React from "react";
 
 
 
@@ -146,6 +147,7 @@ const MainButtonStlyes = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
     }
+    
 
 });
 
