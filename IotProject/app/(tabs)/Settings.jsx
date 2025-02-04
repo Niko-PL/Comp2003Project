@@ -2,13 +2,16 @@ import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';  // Import useNavigation
-import {Account} from '@/app/Account'; // Make sure the path is correct
+import {Account} from '../Account'; // Make sure the path is correct
 import { ButtonUI } from "@/components/ui/Buttons";
 
 
 const SettingsStack = createNativeStackNavigator();
 
 function SettingsScreen() {
+  const navigation = useNavigation(); // Use the navigation hook
+  let Company_ID = "XXXXXXXXXXXX"
+  let User_ID = "XXXXXXXXXXXX"
   return (
     <ScrollView contentContainerStyle={styles.container}>
       {/* Title Section */}
@@ -19,26 +22,26 @@ function SettingsScreen() {
         <View style={styles.infoRow}>
           <View style={styles.infoCollum}>
             <Text style={styles.infoLabel}>Company ID:</Text>
-            <Text style={styles.infoValue}>XXXXXXXXX</Text>
+            <Text style={styles.infoValue}>{Company_ID}</Text>
           </View>
           <View style={styles.infoCollum}>
             <Text style={styles.infoLabel}>User ID:</Text>
-            <Text style={styles.infoValue}>XXXXXXXXX</Text>
+            <Text style={styles.infoValue}>{User_ID}</Text>
           </View>
         </View>
       </View>
 
       {/* Settings Buttons */}
       <View>
-        <ButtonUI text="Account" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => { }} />
+        <ButtonUI text="Account" type='alternate' Textstyles={{fontSize: 24}} onPress={() => navigation.navigate("Account")} />
 
-        <ButtonUI text="Preferences" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Preferences" type='alternate' Textstyles={{fontSize: 24}} onPress={() => {}} />
 
-        <ButtonUI text="Contact Us" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Contact Us" type='alternate' Textstyles={{fontSize: 24}} onPress={() => {}} />
 
-        <ButtonUI text="Manage ORG" type='alternate' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Manage ORG" type='alternate'  Textstyles={{fontSize: 24}} onPress={() => {}} />
         
-        <ButtonUI text="Log Out" type='exit' icon="User-icon" Textstyles={{fontSize: 24}} onPress={() => {}} />
+        <ButtonUI text="Log Out" type='destructive'  Textstyles={{fontSize: 24}}  onPress={() => {}} />
       </View>
 
     </ScrollView>
@@ -49,6 +52,7 @@ export default function HomeScreen() {
   return (
     <SettingsStack.Navigator screenOptions={{ headerShown: false }}>
       <SettingsStack.Screen name="MainPage" component={SettingsScreen} />
+      <SettingsStack.Screen name="Account" component={Account} />
     </SettingsStack.Navigator>
   );
 }

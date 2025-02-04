@@ -117,7 +117,7 @@ const MainButtonStlyes = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#EF5350',
+        backgroundColor: '#c80101',
         gap: 10,
         padding: 10,
         marginBottom: 10,

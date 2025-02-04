@@ -4,3 +4,10 @@ adc0c7  = grey
 
 
 c80101 = red
+
+
+Kill server 
+
+netstat -ano | findstr :8081
+
+taskkill /PID <PID> /F
