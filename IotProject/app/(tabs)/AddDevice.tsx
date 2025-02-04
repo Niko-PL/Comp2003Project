@@ -11,7 +11,7 @@ import * as Location from 'expo-location';
 
 export default function AddNewDevice() {
     const scrollViewRef = useRef<ScrollView>(null);
-    const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImage, setSelectedImage] = useState("");
 
     return (
         <View style={styles.container}>
@@ -19,14 +19,18 @@ export default function AddNewDevice() {
             <KeyboardAvoidingView style={{flex : 1}}  behavior={"padding"} enabled  keyboardVerticalOffset={0}>
             <ScrollView 
                   ref={scrollViewRef}
-                  onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: true })}
+                  onContentSizeChange={() => {
+                    if (scrollViewRef.current) {
+                     scrollViewRef.current.scrollToEnd({ animated: true })
+                    }
+                  }}
                   style={styles.ScrollViewContainer}
-            >
+              >
               <View style={styles.InputContainer}>
               <InputCard InputHeader="Device Name" InputPlaceholder="Device Name"/>
               <View style={styles.InputBoxContainer}>
               <Text style={styles.InputTextHeader}>Device Image</Text>
-              <Image source={selectedImage ? { uri: selectedImage  } : require('@/assets/images/adaptive-icon.png')} style={styles.ImageContainer}/>
+              <Image source={selectedImage != '' ? { uri: selectedImage  } : require('@/assets/images/adaptive-icon.png')} style={styles.ImageContainer}/>
               <TouchableOpacity style={styles.SubmitButton} onPress={async () => {
                 try {
                   // Launch image picker

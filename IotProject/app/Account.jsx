@@ -52,7 +52,7 @@ export function Account() {
         </View>
 
         </View>
-        <ButtonUI text="Log Out" type='destructive'  Textstyles={{fontSize: 24}}  onPress={() => {}} />
+        <ButtonUI text="Log Out" type='destructive' extrastyles={{marginTop: 10}}  Textstyles={{fontSize: 24}}  onPress={() => {}} />
       </View>
       
     </ScrollView>
