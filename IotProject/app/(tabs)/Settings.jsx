@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 import {Account} from '../Account';
 import {Preferences} from '../Preferences';
+import {ContactForm} from '../ContactForm';
 import { ButtonUI } from "@/components/ui/Buttons";
 import { Ionicons } from '@expo/vector-icons';
 
@@ -84,10 +85,11 @@ function SettingsScreen() {
                     type='alternate'
                     Textstyles={styles.buttonText}
                     extrastyles={styles.button}
-                    onPress={() => {}}
+                    onPress={() =>  navigation.navigate("ContactForm")}
                   />
                   <Ionicons name="mail-outline" size={24} style={styles.buttonIcon} />
                 </View>
+
                 
                 {/* Manage ORG Button */}
                 <View style={[styles.buttonCell, isDesktop && styles.desktopButtonCell]}>
@@ -115,7 +117,9 @@ export default function HomeScreen() {
       <SettingsStack.Screen name="MainPage" component={SettingsScreen} />
       <SettingsStack.Screen name="Account" component={Account} />
       <SettingsStack.Screen name="Preferences" component={Preferences} />
+      <SettingsStack.Screen name="ContactForm" component={ContactForm} />
     </SettingsStack.Navigator>
+
   );
 }
 

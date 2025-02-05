@@ -1,9 +1,13 @@
+Quick Colour Key
+
 fe5824  = orange
 0d2a38  = blue
 adc0c7  = grey
 
-
 c80101 = red
+
+-----------------------------
+npx expo start
 
 
 Kill server 
@@ -12,5 +16,9 @@ netstat -ano | findstr :8081
 
 taskkill /PID <PID> /F
 
+
+-----------------------------
+
+URL Website
 
 http://localhost:8081/MainPage

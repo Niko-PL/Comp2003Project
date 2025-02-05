@@ -64,7 +64,7 @@ export function Account() {
           type='destructive' 
           extrastyles={styles.logoutButton}
           Textstyles={styles.logoutText}
-          onPress={() => {}} 
+          onPress={() => {}}    //log out function
         />
       </View>
     </ScrollView>
