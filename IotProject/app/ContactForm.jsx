@@ -86,13 +86,14 @@ export function ContactForm() {
             />
           </View>
         </View>
-
+        <View style={styles.bottomSpacer} />
         <ButtonUI 
           text="Submit" 
           type=''
           extrastyles={styles.submitButton}
           onPress={handleSubmit} //on press is a function that runs the code inside in javascript
         />
+        <View style={styles.bottomSpacer} />
       </View>
     </ScrollView>
   );
@@ -181,5 +182,9 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 20,
     width: '100%',
+  },
+
+  bottomSpacer: {
+    height: 40
   }
 });
